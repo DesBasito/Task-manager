@@ -21,10 +21,10 @@ public class FileUtil {
 
     private static final Gson GSON = new GsonBuilder()
             .setPrettyPrinting()
-            .setDateFormat("M/d/yyyy") // Specify the date format used in your JSON
+            .setDateFormat("M/d/yyyy")
             .create();
 
-    private static final Path PATH = Paths.get("data/taskslist.json");
+    private static final Path PATH = Paths.get("data/tasks list.json");
 
     public static List<Task> readFile() {
         try {
