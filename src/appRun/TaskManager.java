@@ -9,13 +9,6 @@ public class TaskManager {
         this.tasks = new ArrayList<>();
     }
 
-
-    // конструктор, геттеры и сеттеры
-
-    public void displayMenu() {
-        // Вывести меню взаимодействия с пользователем
-    }
-
     public void showAllTasks() {
         // Вывести все задачи
     }
@@ -54,5 +47,15 @@ public class TaskManager {
 
     public void sortTasksByDescription() {
         // Отсортировать задачи по описанию
+    }
+
+    public void displayMenu() {
+        System.out.println("===== Task Manager Menu =====");
+        System.out.println("1. Show all tasks");
+        System.out.println("2. Add a new task");
+        System.out.println("3. Change task status or description");
+        System.out.println("4. Delete a task");
+        System.out.println("5. Save and exit");
+        System.out.println("=============================");
     }
 }

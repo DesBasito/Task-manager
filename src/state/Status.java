@@ -1,4 +1,4 @@
-package appRun;
+package state;
 
 public enum Status {
     NEW,

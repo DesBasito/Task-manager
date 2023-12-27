@@ -1,5 +1,8 @@
 package appRun;
 
+import state.Priority;
+import state.Status;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -69,5 +72,14 @@ public class Task {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+    public void displayTask() {
+        System.out.println("Title: " + title);
+        System.out.println("Description: " + description);
+        System.out.println("Completion Date: " + completionDate);
+        System.out.println("Created Date: " + createdDate);
+        System.out.println("Priority: " + priority);
+        System.out.println("Status: " + status);
+        System.out.println("-------------------");
     }
 }
