@@ -1,0 +1,71 @@
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public class Task {
+    private String title;
+    private String description;
+    private Date completionDate;
+    private Date createdDate;
+    private Priority priority;
+    private Status status;
+
+    public Task(String title, String description, String completionDate, String createdDate, Priority priority) throws ParseException {
+        this.title = title;
+        this.description = description;
+        this.completionDate = new SimpleDateFormat("dd.MM.yyyy").parse(completionDate);
+        this.createdDate = new SimpleDateFormat("dd.MM.yyyy").parse(createdDate);
+        this.priority = priority;
+        this.status = Status.NEW;
+    }
+
+    // Геттеры и сеттеры
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Date getCompletionDate() {
+        return completionDate;
+    }
+
+    public void setCompletionDate(Date completionDate) {
+        this.completionDate = completionDate;
+    }
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public Priority getPriority() {
+        return priority;
+    }
+
+    public void setPriority(Priority priority) {
+        this.priority = priority;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+}
