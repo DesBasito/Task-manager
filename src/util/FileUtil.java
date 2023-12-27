@@ -15,8 +15,8 @@ public class FileUtil {
     }
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-    private static final Path PATH = Paths.get("data/tasks.json");
-    private static final Path PATH2 = Paths.get("data/tasks.json");
+    private static final Path PATH = Paths.get("data/taskslist.json");
+    private static final Path PATH2 = Paths.get("data/taskslist.json");
 
     public static Task[] readFile() {
         try {
