@@ -1,5 +1,7 @@
 package appRun;
 
+import com.google.gson.annotations.JsonAdapter;
+import com.google.gson.internal.bind.DateTypeAdapter;
 import state.Priority;
 import state.Status;
 
@@ -18,8 +20,8 @@ public class Task {
     public Task(String title, String description, String completionDate, String createdDate, Priority priority) throws ParseException {
         this.title = title;
         this.description = description;
-        this.completionDate = new SimpleDateFormat("dd.MM.yyyy").parse(completionDate);
-        this.createdDate = new SimpleDateFormat("dd.MM.yyyy").parse(createdDate);
+        this.completionDate = new SimpleDateFormat("M/d/yyyy").parse(completionDate);
+        this.createdDate = new SimpleDateFormat("M/d/yyyy").parse(createdDate);
         this.priority = priority;
         this.status = Status.NEW;
     }
@@ -39,13 +41,12 @@ public class Task {
     public void setDescription(String description) {
         this.description = description;
     }
+    public void setCompletionDate(Date completionDate) {
+        this.completionDate = completionDate;
+    }
 
     public Date getCompletionDate() {
         return completionDate;
-    }
-
-    public void setCompletionDate(Date completionDate) {
-        this.completionDate = completionDate;
     }
 
     public Date getCreatedDate() {
