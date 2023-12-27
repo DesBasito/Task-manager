@@ -10,43 +10,43 @@ public class TaskManager {
     }
 
     public void showAllTasks() {
-        // Вывести все задачи
+        //todo Вывести все задачи
     }
 
     public void addNewTask() {
-        // Добавить новую задачу
+        //todo Добавить новую задачу
     }
 
     public void changeTask() {
-        // Изменить статус или описание задачи
+        //todo Изменить статус или описание задачи
     }
 
     public void deleteTask() {
-        // Удалить задачу
+        //todo Удалить задачу
     }
 
     public void saveToJson() {
-        // Сохранить задачи в JSON файл
+        //todo Сохранить задачи в JSON файл
     }
 
     public void loadFromJson() {
-        // Загрузить задачи из JSON файла
+        //todo Загрузить задачи из JSON файла
     }
 
     public void markOverdueTasks() {
-        // Пометить просроченные задачи
+        //todo Пометить просроченные задачи
     }
 
     public void sortTasksByPriority() {
-        // Отсортировать задачи по приоритету
+        //todo Отсортировать задачи по приоритету
     }
 
     public void sortTasksByCreationDate() {
-        // Отсортировать задачи по дате создания
+        //todo Отсортировать задачи по дате создания
     }
 
     public void sortTasksByDescription() {
-        // Отсортировать задачи по описанию
+        //todo Отсортировать задачи по описанию
     }
 
     public void displayMenu() {

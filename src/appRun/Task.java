@@ -24,8 +24,6 @@ public class Task {
         this.status = Status.NEW;
     }
 
-    // Геттеры и сеттеры
-
     public String getTitle() {
         return title;
     }
