@@ -14,19 +14,41 @@ public class TaskManager {
     }
 
     public void showAllTasks() {
-        //todo Вывести все задачи
+        for (Task task : tasks) {
+            task.displayTask();
+        }
     }
 
-    public void addNewTask() {
-        //todo Добавить новую задачу
+    public void addNewTask(Task task) {
+        tasks.add(task);
     }
 
-    public void changeTask() {
+    public void changeTask(String nameOfTask, String change){
+        for(Task task: tasks){
+            if(task.getTitle().equalsIgnoreCase(nameOfTask)){
+                try(){
+                    switch (change){
+                        case "d", "D":
+                            System.out.print("Введите новое описание задачи: ");
+                            String str = new Scanner(System.in).nextLine();
+                            task.setDescription(str);
+                            break;
+                        case "s", "S":
+                            if(task.getStatus() != Status.DONE){
+                                String line = new Scanner(System.in).nextLine();
+                                System.out.println("На какой статус вы хотите поменять задачу?" +
+                                        "(Type 'n' for new, 'p' - for In Progress): ");
+//                                task.setStatus();
+                            }
+                    }
+                }
+            }
+        }
         //todo Изменить статус или описание задачи
     }
 
-    public void deleteTask() {
-        //todo Удалить задачу
+    public void deleteTask(String name) {
+        tasks.removeIf(e -> e.getTitle().equalsIgnoreCase(name));
     }
 
     public void saveToJson() {
@@ -74,6 +96,4 @@ public class TaskManager {
         System.out.println("5. Save and exit");
         System.out.println("=============================");
     }
-
-
 }
