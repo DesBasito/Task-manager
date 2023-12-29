@@ -1,12 +1,14 @@
 package appRun;
 
+import util.FileUtil;
+
 import java.util.*;
 
 public class TaskManager {
     private List<Task> tasks;
 
     public TaskManager() {
-        this.tasks = new ArrayList<>();
+        this.tasks = FileUtil.readFile();
     }
 
     public void showAllTasks() {
@@ -38,15 +40,21 @@ public class TaskManager {
     }
 
     public void sortTasksByPriority() {
-        //todo Отсортировать задачи по приоритету
+        var result = tasks.stream()
+                .sorted(Comparator.comparing(Task::getPriority))
+                .toList();
     }
 
     public void sortTasksByCreationDate() {
-        //todo Отсортировать задачи по дате создания
+        var result = tasks.stream()
+                .sorted(Comparator.comparing(Task::getCreatedDate))
+                .toList();
     }
 
     public void sortTasksByDescription() {
-        //todo Отсортировать задачи по описанию
+        var result = tasks.stream()
+                .sorted(Comparator.comparing(Task::getDescription))
+                .toList();
     }
 
     public void displayMenu() {
@@ -58,4 +66,6 @@ public class TaskManager {
         System.out.println("5. Save and exit");
         System.out.println("=============================");
     }
+
+
 }
