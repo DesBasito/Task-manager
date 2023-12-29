@@ -1,7 +1,10 @@
 package appRun;
 
+import state.Status;
 import util.FileUtil;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class TaskManager {
@@ -36,7 +39,13 @@ public class TaskManager {
     }
 
     public void markOverdueTasks() {
-        //todo Пометить просроченные задачи
+        tasks = tasks.stream()
+                .peek(task -> {
+                    if (task.getStatus() == Status.IN_PROGRESS
+                            && task.getCompletionDate().before(Date.from(Instant.now())))
+                        task.setTitle(task.getTitle() + "*");
+                })
+                .toList();
     }
 
     public void sortTasksByPriority() {
