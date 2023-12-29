@@ -16,7 +16,6 @@ import java.util.Scanner;
 public class TaskManager {
     private static final Scanner sc = new Scanner(System.in);
     private List<Task> tasks;
-
     public TaskManager() throws ParseException {
         this.tasks = loadFromJson();
     }
@@ -154,12 +153,14 @@ public class TaskManager {
     public void createNewTask() throws ParseException {
         System.out.print("Enter the name of the title: ");
         String title = sc.nextLine();
+        System.out.print("Enter the description of task: ");
         String description = sc.nextLine();
+        System.out.print("Enter the completion date of task: ");
         String completionDate = sc.nextLine();
+        System.out.print("Enter the creation date of task: ");
         String createdDate = sc.nextLine();
         Priority priority = choosePriority();
         addNewTask(title, description, completionDate, createdDate, priority);
-
     }
 
     private Priority choosePriority(){
@@ -171,15 +172,17 @@ public class TaskManager {
             case "l":
                 priority = Priority.LOW;
                 return priority;
-            case "m":
+            case "M":
                 priority =Priority.MEDIUM;
                 return priority;
-            case "h":
+            case "H":
                 priority = Priority.HIGH;
                 return priority;
         }
-        System.out.println("You entered wrong letter");
-        choosePriority();
+        if(priority == null){
+            System.out.println("You entered wrong letter");
+            choosePriority();
+        }
         return priority;
     }
 
