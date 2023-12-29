@@ -5,7 +5,6 @@ import state.Priority;
 import state.Status;
 import util.FileUtil;
 
-import java.sql.SQLOutput;
 import java.text.ParseException;
 import java.time.Instant;
 import java.util.*;
@@ -126,12 +125,14 @@ public class TaskManager {
     public void createNewTask() throws ParseException {
         System.out.print("Enter the name of the title: ");
         String title = sc.nextLine();
+        System.out.print("Enter the description of task: ");
         String description = sc.nextLine();
+        System.out.print("Enter the completion date of task: ");
         String completionDate = sc.nextLine();
+        System.out.print("Enter the creation date of task: ");
         String createdDate = sc.nextLine();
         Priority priority = choosePriority();
         addNewTask(title, description, completionDate, createdDate, priority);
-
     }
 
     private Priority choosePriority(){
