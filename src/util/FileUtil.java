@@ -34,4 +34,17 @@ public class FileUtil {
             return Collections.emptyList();
         }
     }
+
+    public static List<Task> writeFile(List<Task> tasks) {
+        String json = GSON.toJson(tasks);
+
+        byte[] bytes = json.getBytes();
+        try {
+            Files.write(PATH, bytes);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+
+    }
 }
