@@ -1,28 +1,57 @@
 package appRun;
 
+import Exceptions.CustomException;
+import state.Priority;
+import state.Status;
+import util.FileUtil;
+
+import java.sql.SQLOutput;
+import java.text.ParseException;
+import java.time.Instant;
 import java.util.*;
 
 public class TaskManager {
     private List<Task> tasks;
 
+    Scanner sc = new Scanner(System.in);
+
     public TaskManager() {
-        this.tasks = new ArrayList<>();
+        this.tasks = FileUtil.readFile();
     }
 
     public void showAllTasks() {
-        //todo Вывести все задачи
+        for (Task task : tasks) {
+            task.displayTask();
+        }
     }
 
-    public void addNewTask() {
-        //todo Добавить новую задачу
+    public void addNewTask(String title, String description, String completionDate, String createdDate, Priority priority) throws ParseException {
+        tasks.add(new Task(title, description, completionDate, createdDate, priority));
+    } {
+
     }
 
-    public void changeTask() {
-        //todo Изменить статус или описание задачи
+    public void changeTask(String nameOfTask, String change) throws CustomException {
+        for(Task task: tasks){
+            if(task.getTitle().equalsIgnoreCase(nameOfTask)){
+                try{
+                    switch (change){
+                        case "d", "D":
+                            changeDescription(task);
+                            break;
+                        case "s", "S":
+                           changeStatus(task);
+                           break;
+                    }
+                } catch (RuntimeException | CustomException e){
+                    changeTask(nameOfTask, change);
+                }
+            }
+        }
     }
 
-    public void deleteTask() {
-        //todo Удалить задачу
+    public void deleteTask(String name) {
+        tasks.removeIf(e -> e.getTitle().equalsIgnoreCase(name));
     }
 
     public void saveToJson() {
@@ -34,19 +63,31 @@ public class TaskManager {
     }
 
     public void markOverdueTasks() {
-        //todo Пометить просроченные задачи
+        tasks = tasks.stream()
+                .peek(task -> {
+                    if (task.getStatus() == Status.IN_PROGRESS
+                            && task.getCompletionDate().before(Date.from(Instant.now())))
+                        task.setTitle(task.getTitle() + "*");
+                })
+                .toList();
     }
 
     public void sortTasksByPriority() {
-        //todo Отсортировать задачи по приоритету
+        var result = tasks.stream()
+                .sorted(Comparator.comparing(Task::getPriority))
+                .toList();
     }
 
     public void sortTasksByCreationDate() {
-        //todo Отсортировать задачи по дате создания
+        var result = tasks.stream()
+                .sorted(Comparator.comparing(Task::getCreatedDate))
+                .toList();
     }
 
     public void sortTasksByDescription() {
-        //todo Отсортировать задачи по описанию
+        var result = tasks.stream()
+                .sorted(Comparator.comparing(Task::getDescription))
+                .toList();
     }
 
     public void displayMenu() {
@@ -58,4 +99,63 @@ public class TaskManager {
         System.out.println("5. Save and exit");
         System.out.println("=============================");
     }
+
+    public void changeDescription(Task task) throws CustomException {
+        System.out.print("Введите новое описание задачи: ");
+        String str = new Scanner(System.in).nextLine();
+        task.getStatus().changeDescription(task, str);
+    }
+
+    public void changeStatus(Task task) throws CustomException {
+        if(task.getStatus() != Status.DONE){
+            String line = new Scanner(System.in).nextLine();
+            System.out.println("На какой статус вы хотите поменять задачу?" +
+                    "(Type 'p' - for In Progress and 'd' - for done): ");
+            switch(line){
+                case "p","P":
+                    task.setStatus(task.getStatus().changeToIN_PROGRESS(task));
+                    break;
+                case"d", "D":
+                    task.setStatus(task.getStatus().changeToDONE(task));
+            }
+        } else{
+            System.out.println("You can't change the task that is done.");
+        }
+    }
+
+    public void createNewTask() throws ParseException {
+        System.out.print("Enter the name of the title: ");
+        String title = sc.nextLine();
+        String description = sc.nextLine();
+        String completionDate = sc.nextLine();
+        String createdDate = sc.nextLine();
+        Priority priority = choosePriority();
+        addNewTask(title, description, completionDate, createdDate, priority);
+
+    }
+
+    private Priority choosePriority(){
+        System.out.println("What priority of a task do you want to choose?" +
+                " ('L' - for low, 'M' - for medium, 'H' - for high): ");
+        String str = sc.nextLine().toLowerCase();
+        Priority priority = null;
+        switch (str){
+            case "l":
+                priority = Priority.LOW;
+                return priority;
+            case "M":
+                priority =Priority.MEDIUM;
+                return priority;
+            case "H":
+                priority = Priority.HIGH;
+                return priority;
+        }
+        if(priority == null){
+            System.out.println("You entered wrong letter");
+            choosePriority();
+        }
+        return priority;
+    }
+
+
 }

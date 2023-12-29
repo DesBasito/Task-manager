@@ -41,6 +41,7 @@ public class Task {
     public void setDescription(String description) {
         this.description = description;
     }
+
     public void setCompletionDate(Date completionDate) {
         this.completionDate = completionDate;
     }
@@ -72,6 +73,7 @@ public class Task {
     public void setStatus(Status status) {
         this.status = status;
     }
+
     public void displayTask() {
         System.out.println("Title: " + title);
         System.out.println("Description: " + description);
