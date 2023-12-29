@@ -3,14 +3,19 @@ package appRun;
 import state.Status;
 import util.FileUtil;
 
+import java.io.IOException;
 import java.time.Instant;
-import java.util.*;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
+import java.util.Scanner;
 
 public class TaskManager {
+    private static final Scanner sc = new Scanner(System.in);
     private List<Task> tasks;
 
     public TaskManager() {
-        this.tasks = FileUtil.readFile();
+        this.tasks = loadFromJson();
     }
 
     public void showAllTasks() {
@@ -26,7 +31,7 @@ public class TaskManager {
     public void changeTask(String nameOfTask, String change){
         for(Task task: tasks){
             if(task.getTitle().equalsIgnoreCase(nameOfTask)){
-                try(){
+                try {
                     switch (change){
                         case "d", "D":
                             System.out.print("Введите новое описание задачи: ");
@@ -52,11 +57,37 @@ public class TaskManager {
     }
 
     public void saveToJson() {
-        //todo Сохранить задачи в JSON файл
+        FileUtil.writeFile(tasks);
     }
 
-    public void loadFromJson() {
-        //todo Загрузить задачи из JSON файла
+    public List<Task> loadFromJson() {
+        try {
+            return FileUtil.readFile();
+        } catch (IOException e) {
+            System.out.println("""
+                    There are no tasks. Would you like to create new tasks?
+                     1. Yes
+                     2. No, exit
+                    """);
+            System.out.println("--> ");
+            String answer = sc.nextLine().trim();
+            while (true) {
+                switch (answer) {
+                    case "1":
+                        addNewTask();
+                        saveToJson(); // либо реализуем сохранения в самих методах, либо же переносим сохранение в интерфейс
+                        // Далее вызвать меню
+                        loadFromJson();
+                        break;
+                    case "2":
+                        System.out.println("Shutting down...");
+                        return null;
+                    default:
+                        System.out.println("Answer isn't correct, try again...");
+                        break;
+                }
+            }
+        }
     }
 
     public void markOverdueTasks() {

@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Collections;
 import java.util.List;
 
 
@@ -24,14 +23,22 @@ public class FileUtil {
 
     private static final Path PATH = Paths.get("data/tasks list.json");
 
-    public static List<Task> readFile() {
+    public static List<Task> readFile() throws IOException {
+        String str = Files.readString(PATH);
+        return GSON.fromJson(str, new TypeToken<List<Task>>() {
+        }.getType());
+    }
+
+    public static void writeFile(List<Task> tasks) {
+        String json = GSON.toJson(tasks);
+
+        byte[] bytes = json.getBytes();
         try {
-            String str = Files.readString(PATH);
-            return GSON.fromJson(str, new TypeToken<List<Task>>() {}.getType());
+            Files.write(PATH, bytes);
         } catch (IOException e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
-            return Collections.emptyList();
         }
+
     }
 }
