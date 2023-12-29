@@ -7,12 +7,13 @@ import appRun.TaskManager;
 public enum Status {
     NEW {
         @Override
-        public void changeToIN_PROGRESS(Task task) {
+        public Status changeToIN_PROGRESS(Task task) {
             task.setStatus(Status.IN_PROGRESS);
+            return null;
         }
 
         @Override
-        public void changeToDONE(Task task) throws CustomException {
+        public Status changeToDONE(Task task) throws CustomException {
             throw new CustomException("You cannot make new task as done");
         }
 
@@ -28,13 +29,14 @@ public enum Status {
     },
     IN_PROGRESS {
         @Override
-        public void changeToIN_PROGRESS(Task task) throws CustomException {
+        public Status changeToIN_PROGRESS(Task task) throws CustomException {
             throw new CustomException("The task is already in progress");
         }
 
         @Override
-        public void changeToDONE(Task task) {
+        public Status changeToDONE(Task task) {
             task.setStatus(Status.DONE);
+            return null;
         }
 
         @Override
@@ -49,12 +51,12 @@ public enum Status {
     },
     DONE {
         @Override
-        public void changeToIN_PROGRESS(Task task) throws CustomException {
+        public Status changeToIN_PROGRESS(Task task) throws CustomException {
             throw new CustomException("Task has already been done");
         }
 
         @Override
-        public void changeToDONE(Task task) throws CustomException {
+        public Status changeToDONE(Task task) throws CustomException {
             throw new CustomException("Task has already been done");
         }
 
@@ -69,9 +71,9 @@ public enum Status {
         }
     };
 
-    public abstract void changeToIN_PROGRESS (Task task) throws CustomException;
+    public abstract Status changeToIN_PROGRESS (Task task) throws CustomException;
 
-    public abstract void changeToDONE(Task task) throws CustomException;
+    public abstract Status changeToDONE(Task task) throws CustomException;
 
     public abstract void changeDescription(Task task, String msg) throws CustomException;
     public abstract void delete(Task task, TaskManager todo) throws CustomException;
