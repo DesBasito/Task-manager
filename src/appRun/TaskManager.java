@@ -5,7 +5,6 @@ import state.Priority;
 import state.Status;
 import util.FileUtil;
 
-import java.sql.SQLOutput;
 import java.text.ParseException;
 import java.time.Instant;
 import java.util.*;
@@ -27,21 +26,15 @@ public class TaskManager {
 
     public void addNewTask(String title, String description, String completionDate, String createdDate, Priority priority) throws ParseException {
         tasks.add(new Task(title, description, completionDate, createdDate, priority));
-    } {
-
     }
 
     public void changeTask(String nameOfTask, String change) throws CustomException {
         for(Task task: tasks){
             if(task.getTitle().equalsIgnoreCase(nameOfTask)){
                 try{
-                    switch (change){
-                        case "d", "D":
-                            changeDescription(task);
-                            break;
-                        case "s", "S":
-                           changeStatus(task);
-                           break;
+                    switch (change) {
+                        case "d", "D" -> changeDescription(task);
+                        case "s", "S" -> changeStatus(task);
                     }
                 } catch (RuntimeException | CustomException e){
                     changeTask(nameOfTask, change);
@@ -111,12 +104,9 @@ public class TaskManager {
             String line = new Scanner(System.in).nextLine();
             System.out.println("На какой статус вы хотите поменять задачу?" +
                     "(Type 'p' - for In Progress and 'd' - for done): ");
-            switch(line){
-                case "p","P":
-                    task.setStatus(task.getStatus().changeToIN_PROGRESS(task));
-                    break;
-                case"d", "D":
-                    task.setStatus(task.getStatus().changeToDONE(task));
+            switch (line) {
+                case "p", "P" -> task.setStatus(task.getStatus().changeToIN_PROGRESS(task));
+                case "d", "D" -> task.setStatus(task.getStatus().changeToDONE(task));
             }
         } else{
             System.out.println("You can't change the task that is done.");
@@ -139,21 +129,22 @@ public class TaskManager {
                 " ('L' - for low, 'M' - for medium, 'H' - for high): ");
         String str = sc.nextLine().toLowerCase();
         Priority priority = null;
-        switch (str){
-            case "l":
+        switch (str) {
+            case "l" -> {
                 priority = Priority.LOW;
                 return priority;
-            case "M":
-                priority =Priority.MEDIUM;
+            }
+            case "m" -> {
+                priority = Priority.MEDIUM;
                 return priority;
-            case "H":
+            }
+            case "h" -> {
                 priority = Priority.HIGH;
                 return priority;
+            }
         }
-        if(priority == null){
-            System.out.println("You entered wrong letter");
-            choosePriority();
-        }
+        System.out.println("You entered wrong letter");
+        choosePriority();
         return priority;
     }
 
