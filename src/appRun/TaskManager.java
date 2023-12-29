@@ -127,7 +127,7 @@ public class TaskManager {
     private Priority choosePriority(){
         System.out.println("What priority of a task do you want to choose?" +
                 " ('L' - for low, 'M' - for medium, 'H' - for high): ");
-        String str = sc.nextLine().toLowerCase();
+        String str = sc.nextLine().toLowerCase().strip();
         Priority priority = null;
         switch (str) {
             case "l" -> {
