@@ -3,6 +3,7 @@ package appRun;
 import state.Status;
 import util.FileUtil;
 
+import java.io.IOException;
 import java.time.Instant;
 import java.util.Comparator;
 import java.util.Date;
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class TaskManager {
+    private static final Scanner sc = new Scanner(System.in);
     private List<Task> tasks;
 
     public TaskManager() {
@@ -59,7 +61,33 @@ public class TaskManager {
     }
 
     public List<Task> loadFromJson() {
-        return FileUtil.readFile();
+        try {
+            return FileUtil.readFile();
+        } catch (IOException e) {
+            System.out.println("""
+                    There are no tasks. Would you like to create new tasks?
+                     1. Yes
+                     2. No, exit
+                    """);
+            System.out.println("--> ");
+            String answer = sc.nextLine().trim();
+            while (true) {
+                switch (answer) {
+                    case "1":
+                        addNewTask();
+                        saveToJson(); // либо реализуем сохранения в самих методах, либо же переносим сохранение в интерфейс
+                        // Далее вызвать меню
+                        loadFromJson();
+                        break;
+                    case "2":
+                        System.out.println("Shutting down...");
+                        return null;
+                    default:
+                        System.out.println("Answer isn't correct, try again...");
+                        break;
+                }
+            }
+        }
     }
 
     public void markOverdueTasks() {

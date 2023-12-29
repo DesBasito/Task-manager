@@ -23,13 +23,10 @@ public class FileUtil {
 
     private static final Path PATH = Paths.get("data/tasks list.json");
 
-    public static List<Task> readFile() {
-        try {
-            String str = Files.readString(PATH);
-            return GSON.fromJson(str, new TypeToken<List<Task>>() {}.getType());
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
+    public static List<Task> readFile() throws IOException {
+        String str = Files.readString(PATH);
+        return GSON.fromJson(str, new TypeToken<List<Task>>() {
+        }.getType());
     }
 
     public static void writeFile(List<Task> tasks) {
