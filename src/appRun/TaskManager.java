@@ -6,6 +6,7 @@ import state.Status;
 import util.FileUtil;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.time.Instant;
 import java.util.Comparator;
 import java.util.Date;
@@ -16,7 +17,7 @@ public class TaskManager {
     private static final Scanner sc = new Scanner(System.in);
     private List<Task> tasks;
 
-    public TaskManager() {
+    public TaskManager() throws ParseException {
         this.tasks = loadFromJson();
     }
 
@@ -59,7 +60,7 @@ public class TaskManager {
         FileUtil.writeFile(tasks);
     }
 
-    public List<Task> loadFromJson() {
+    public List<Task> loadFromJson() throws ParseException {
         try {
             return FileUtil.readFile();
         } catch (IOException e) {
@@ -73,7 +74,7 @@ public class TaskManager {
             while (true) {
                 switch (answer) {
                     case "1":
-                        addNewTask();
+                        createNewTask();
                         saveToJson(); // либо реализуем сохранения в самих методах, либо же переносим сохранение в интерфейс
                         // Далее вызвать меню
                         loadFromJson();
@@ -170,17 +171,15 @@ public class TaskManager {
             case "l":
                 priority = Priority.LOW;
                 return priority;
-            case "M":
+            case "m":
                 priority =Priority.MEDIUM;
                 return priority;
-            case "H":
+            case "h":
                 priority = Priority.HIGH;
                 return priority;
         }
-        if(priority == null){
-            System.out.println("You entered wrong letter");
-            choosePriority();
-        }
+        System.out.println("You entered wrong letter");
+        choosePriority();
         return priority;
     }
 
