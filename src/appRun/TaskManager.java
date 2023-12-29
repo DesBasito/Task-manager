@@ -4,13 +4,16 @@ import state.Status;
 import util.FileUtil;
 
 import java.time.Instant;
-import java.util.*;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
+import java.util.Scanner;
 
 public class TaskManager {
     private List<Task> tasks;
 
     public TaskManager() {
-        this.tasks = FileUtil.readFile();
+        this.tasks = loadFromJson();
     }
 
     public void showAllTasks() {
@@ -26,7 +29,7 @@ public class TaskManager {
     public void changeTask(String nameOfTask, String change){
         for(Task task: tasks){
             if(task.getTitle().equalsIgnoreCase(nameOfTask)){
-                try(){
+                try {
                     switch (change){
                         case "d", "D":
                             System.out.print("Введите новое описание задачи: ");
@@ -52,11 +55,11 @@ public class TaskManager {
     }
 
     public void saveToJson() {
-        //todo Сохранить задачи в JSON файл
+        FileUtil.writeFile(tasks);
     }
 
-    public void loadFromJson() {
-        //todo Загрузить задачи из JSON файла
+    public List<Task> loadFromJson() {
+        return FileUtil.readFile();
     }
 
     public void markOverdueTasks() {

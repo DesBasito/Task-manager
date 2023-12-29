@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Collections;
 import java.util.List;
 
 
@@ -30,12 +29,10 @@ public class FileUtil {
             return GSON.fromJson(str, new TypeToken<List<Task>>() {}.getType());
         } catch (IOException e) {
             System.out.println(e.getMessage());
-            e.printStackTrace();
-            return Collections.emptyList();
         }
     }
 
-    public static List<Task> writeFile(List<Task> tasks) {
+    public static void writeFile(List<Task> tasks) {
         String json = GSON.toJson(tasks);
 
         byte[] bytes = json.getBytes();
