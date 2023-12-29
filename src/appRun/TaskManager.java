@@ -154,7 +154,7 @@ public class TaskManager {
             System.out.println("You entered wrong letter");
             choosePriority();
         }
-
+        return priority;
     }
 
 
