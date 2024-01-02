@@ -5,17 +5,23 @@ import state.Priority;
 import state.Status;
 import util.FileUtil;
 
+<<<<<<< HEAD
+=======
+import java.io.IOException;
+>>>>>>> main
 import java.text.ParseException;
 import java.time.Instant;
-import java.util.*;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
+import java.util.Scanner;
 
 public class TaskManager {
+    private static final Scanner sc = new Scanner(System.in);
     private List<Task> tasks;
 
-    Scanner sc = new Scanner(System.in);
-
-    public TaskManager() {
-        this.tasks = FileUtil.readFile();
+    public TaskManager() throws ParseException {
+        this.tasks = loadFromJson();
     }
 
     public void showAllTasks() {
@@ -31,10 +37,21 @@ public class TaskManager {
     public void changeTask(String nameOfTask, String change) throws CustomException {
         for(Task task: tasks){
             if(task.getTitle().equalsIgnoreCase(nameOfTask)){
+<<<<<<< HEAD
                 try{
                     switch (change) {
                         case "d", "D" -> changeDescription(task);
                         case "s", "S" -> changeStatus(task);
+=======
+                try {
+                    switch (change){
+                        case "d", "D":
+                            changeDescription(task);
+                            break;
+                        case "s", "S":
+                           changeStatus(task);
+                           break;
+>>>>>>> main
                     }
                 } catch (RuntimeException | CustomException e){
                     changeTask(nameOfTask, change);
@@ -48,11 +65,37 @@ public class TaskManager {
     }
 
     public void saveToJson() {
-        //todo Сохранить задачи в JSON файл
+        FileUtil.writeFile(tasks);
     }
 
-    public void loadFromJson() {
-        //todo Загрузить задачи из JSON файла
+    public List<Task> loadFromJson() throws ParseException {
+        try {
+            return FileUtil.readFile();
+        } catch (IOException e) {
+            System.out.println("""
+                    There are no tasks. Would you like to create new tasks?
+                     1. Yes
+                     2. No, exit
+                    """);
+            System.out.println("--> ");
+            String answer = sc.nextLine().trim();
+            while (true) {
+                switch (answer) {
+                    case "1":
+                        createNewTask();
+                        saveToJson(); // либо реализуем сохранения в самих методах, либо же переносим сохранение в интерфейс
+                        // Далее вызвать меню
+                        loadFromJson();
+                        break;
+                    case "2":
+                        System.out.println("Shutting down...");
+                        return null;
+                    default:
+                        System.out.println("Answer isn't correct, try again...");
+                        break;
+                }
+            }
+        }
     }
 
     public void markOverdueTasks() {
@@ -133,12 +176,19 @@ public class TaskManager {
             case "l" -> {
                 priority = Priority.LOW;
                 return priority;
+<<<<<<< HEAD
             }
             case "m" -> {
                 priority = Priority.MEDIUM;
                 return priority;
             }
             case "h" -> {
+=======
+            case "m":
+                priority =Priority.MEDIUM;
+                return priority;
+            case "h":
+>>>>>>> main
                 priority = Priority.HIGH;
                 return priority;
             }
