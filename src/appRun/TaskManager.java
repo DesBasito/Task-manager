@@ -5,11 +5,8 @@ import state.Priority;
 import state.Status;
 import util.FileUtil;
 
-<<<<<<< HEAD
-=======
-import java.io.IOException;
->>>>>>> main
 import java.text.ParseException;
+import java.io.IOException;
 import java.time.Instant;
 import java.util.Comparator;
 import java.util.Date;
@@ -32,17 +29,13 @@ public class TaskManager {
 
     public void addNewTask(String title, String description, String completionDate, String createdDate, Priority priority) throws ParseException {
         tasks.add(new Task(title, description, completionDate, createdDate, priority));
+    } {
+
     }
 
     public void changeTask(String nameOfTask, String change) throws CustomException {
         for(Task task: tasks){
             if(task.getTitle().equalsIgnoreCase(nameOfTask)){
-<<<<<<< HEAD
-                try{
-                    switch (change) {
-                        case "d", "D" -> changeDescription(task);
-                        case "s", "S" -> changeStatus(task);
-=======
                 try {
                     switch (change){
                         case "d", "D":
@@ -51,7 +44,6 @@ public class TaskManager {
                         case "s", "S":
                            changeStatus(task);
                            break;
->>>>>>> main
                     }
                 } catch (RuntimeException | CustomException e){
                     changeTask(nameOfTask, change);
@@ -172,26 +164,16 @@ public class TaskManager {
                 " ('L' - for low, 'M' - for medium, 'H' - for high): ");
         String str = sc.nextLine().toLowerCase().strip();
         Priority priority = null;
-        switch (str) {
-            case "l" -> {
+        switch (str){
+            case "l":
                 priority = Priority.LOW;
                 return priority;
-<<<<<<< HEAD
-            }
-            case "m" -> {
-                priority = Priority.MEDIUM;
-                return priority;
-            }
-            case "h" -> {
-=======
             case "m":
                 priority =Priority.MEDIUM;
                 return priority;
             case "h":
->>>>>>> main
                 priority = Priority.HIGH;
                 return priority;
-            }
         }
         System.out.println("You entered wrong letter");
         choosePriority();
