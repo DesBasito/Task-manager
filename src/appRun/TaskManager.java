@@ -8,10 +8,7 @@ import util.FileUtil;
 import java.text.ParseException;
 import java.io.IOException;
 import java.time.Instant;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class TaskManager {
     private static final Scanner sc = new Scanner(System.in);
@@ -21,29 +18,47 @@ public class TaskManager {
         this.tasks = loadFromJson();
     }
 
-    public void showAllTasks() {
-        for (Task task : tasks) {
-            task.displayTask();
+    public void runApp() throws ParseException, CustomException {
+        boolean brake = false;
+        while (!brake){
+            displayMenu();
+            int num = num("Action: ",5);
+            switch (num){
+                case 1 -> {showAllTasks();}
+                case 2 -> {createNewTask();}
+                case 3 ->{
+                    System.out.print("Enter name of the task: ");
+                    String nameOfTask = sc.nextLine().strip();
+                    System.out.print("Enter what do u want to change (s - status, d - description): ");
+                    String change = sc.nextLine().strip();
+                    changeTask(nameOfTask,change);
+                }
+                case 4 ->{
+                    String name = sc.nextLine().strip();
+                    deleteTask(name);
+                }
+                case 5 ->{brake = true;}
+            }
         }
+
+
     }
 
-    public void addNewTask(String title, String description, String completionDate, String createdDate, Priority priority) throws ParseException {
+    public void showAllTasks() {
+        tasks.forEach(Task::displayTask);
+    }
+
+    private void addNewTask(String title, String description, String completionDate, String createdDate, Priority priority) throws ParseException {
         tasks.add(new Task(title, description, completionDate, createdDate, priority));
-    } {
-
     }
 
-    public void changeTask(String nameOfTask, String change) throws CustomException {
+    private void changeTask(String nameOfTask, String change) throws CustomException {
         for(Task task: tasks){
             if(task.getTitle().equalsIgnoreCase(nameOfTask)){
                 try {
-                    switch (change){
-                        case "d", "D":
-                            changeDescription(task);
-                            break;
-                        case "s", "S":
-                           changeStatus(task);
-                           break;
+                    switch (change) {
+                        case "d", "D" -> changeDescription(task);
+                        case "s", "S" -> changeStatus(task);
                     }
                 } catch (RuntimeException | CustomException e){
                     changeTask(nameOfTask, change);
@@ -56,11 +71,11 @@ public class TaskManager {
         tasks.removeIf(e -> e.getTitle().equalsIgnoreCase(name));
     }
 
-    public void saveToJson() {
+    private void saveToJson() {
         FileUtil.writeFile(tasks);
     }
 
-    public List<Task> loadFromJson() throws ParseException {
+    private List<Task> loadFromJson() throws ParseException {
         try {
             return FileUtil.readFile();
         } catch (IOException e) {
@@ -73,24 +88,23 @@ public class TaskManager {
             String answer = sc.nextLine().trim();
             while (true) {
                 switch (answer) {
-                    case "1":
+                    case "1" -> {
                         createNewTask();
                         saveToJson(); // либо реализуем сохранения в самих методах, либо же переносим сохранение в интерфейс
                         // Далее вызвать меню
                         loadFromJson();
-                        break;
-                    case "2":
+                    }
+                    case "2" -> {
                         System.out.println("Shutting down...");
                         return null;
-                    default:
-                        System.out.println("Answer isn't correct, try again...");
-                        break;
+                    }
+                    default -> System.out.println("Answer isn't correct, try again...");
                 }
             }
         }
     }
 
-    public void markOverdueTasks() {
+    private void markOverdueTasks() {
         tasks = tasks.stream()
                 .peek(task -> {
                     if (task.getStatus() == Status.IN_PROGRESS
@@ -100,41 +114,43 @@ public class TaskManager {
                 .toList();
     }
 
-    public void sortTasksByPriority() {
+    private void sortTasksByPriority() {
         var result = tasks.stream()
                 .sorted(Comparator.comparing(Task::getPriority))
                 .toList();
     }
 
-    public void sortTasksByCreationDate() {
+    private void sortTasksByCreationDate() {
         var result = tasks.stream()
                 .sorted(Comparator.comparing(Task::getCreatedDate))
                 .toList();
     }
 
-    public void sortTasksByDescription() {
+    private void sortTasksByDescription() {
         var result = tasks.stream()
                 .sorted(Comparator.comparing(Task::getDescription))
                 .toList();
     }
 
-    public void displayMenu() {
-        System.out.println("===== Task Manager Menu =====");
-        System.out.println("1. Show all tasks");
-        System.out.println("2. Add a new task");
-        System.out.println("3. Change task status or description");
-        System.out.println("4. Delete a task");
-        System.out.println("5. Save and exit");
-        System.out.println("=============================");
+    private void displayMenu() {
+        System.out.println("""
+        ===== Task Manager Menu =====
+        1. Show all tasks
+        2. Add a new task
+        3. Change task status(s) or Description(d)
+        4. Delete a task
+        5. Save and exit
+       ==============================
+       """);
     }
 
-    public void changeDescription(Task task) throws CustomException {
+    private void changeDescription(Task task) throws CustomException {
         System.out.print("Введите новое описание задачи: ");
         String str = new Scanner(System.in).nextLine();
         task.getStatus().changeDescription(task, str);
     }
 
-    public void changeStatus(Task task) throws CustomException {
+    private void changeStatus(Task task) throws CustomException {
         if(task.getStatus() != Status.DONE){
             String line = new Scanner(System.in).nextLine();
             System.out.println("На какой статус вы хотите поменять задачу?" +
@@ -148,9 +164,9 @@ public class TaskManager {
         }
     }
 
-    public void createNewTask() throws ParseException {
+    private void createNewTask() throws ParseException {
         System.out.print("Enter the name of the title: ");
-        String title = sc.nextLine();
+        String title = sc.nextLine().strip();
         String description = sc.nextLine();
         String completionDate = sc.nextLine();
         String createdDate = sc.nextLine();
@@ -164,21 +180,41 @@ public class TaskManager {
                 " ('L' - for low, 'M' - for medium, 'H' - for high): ");
         String str = sc.nextLine().toLowerCase().strip();
         Priority priority = null;
-        switch (str){
-            case "l":
+        switch (str) {
+            case "l" -> {
                 priority = Priority.LOW;
                 return priority;
-            case "m":
-                priority =Priority.MEDIUM;
+            }
+            case "m" -> {
+                priority = Priority.MEDIUM;
                 return priority;
-            case "h":
+            }
+            case "h" -> {
                 priority = Priority.HIGH;
                 return priority;
+            }
         }
         System.out.println("You entered wrong letter");
         choosePriority();
         return priority;
     }
 
+    private int num(String prompt, int max) {
+        System.out.print(prompt);
+        try {
+            String str = new Scanner(System.in).nextLine();
+            if (str.isEmpty() || str.isBlank()) {
+                throw new NoSuchElementException(String.format("%s :", "field cannot be empty"));
+            }
+            if (Integer.parseInt(str) < 1 || Integer.parseInt(str) > max) {
+                throw new IllegalArgumentException(String.format("%s :", "r u serious?: "));
+            }
+            return Integer.parseInt(str);
+        } catch (NoSuchElementException | NumberFormatException e) {
+            return num(e.getMessage() + " ", max);
+        } catch (IllegalArgumentException e) {
+            return num(e.getMessage(), max);
+        }
+    }
 
 }

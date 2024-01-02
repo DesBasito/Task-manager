@@ -1,7 +1,5 @@
 package appRun;
 
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.internal.bind.DateTypeAdapter;
 import state.Priority;
 import state.Status;
 
