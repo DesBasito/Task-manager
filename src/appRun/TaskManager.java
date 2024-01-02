@@ -9,6 +9,7 @@ import java.text.ParseException;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class TaskManager {
     private static final Scanner sc = new Scanner(System.in);
@@ -19,29 +20,53 @@ public class TaskManager {
     }
 
     public void runApp() throws ParseException, CustomException {
+        markOverdueTasks();
         boolean brake = false;
-        while (!brake){
+        while (!brake) {
             displayMenu();
-            int num = num("Action: ",5);
-            switch (num){
-                case 1 -> {showAllTasks();}
-                case 2 -> {createNewTask();}
-                case 3 ->{
+            int num = num("Action: ", 5);
+            switch (num) {
+                case 1 -> {
+                    showAllTasks();
+                }
+                case 2 -> {
+                    createNewTask();
+                }
+                case 3 -> {
                     System.out.print("Enter name of the task: ");
                     String nameOfTask = sc.nextLine().strip();
                     System.out.print("Enter what do u want to change (s - status, d - description): ");
                     String change = sc.nextLine().strip();
-                    changeTask(nameOfTask,change);
+                    changeTask(nameOfTask, change);
                 }
-                case 4 ->{
+                case 4 -> {
                     String name = sc.nextLine().strip();
                     deleteTask(name);
                 }
-                case 5 ->{brake = true;}
+                case 5 -> {
+                    sortedList();
+                }
+                case 6->{brake = true;}
             }
         }
 
 
+    }
+
+    private void sortedList(){
+        System.out.println("""
+                1. Sorted tasks by priority
+                2. Sorted tasks by creation date
+                3. Sorted tasks by description
+                4. Display all overdue tasks
+                """);
+        int num = num("choice: ",4);
+        switch (num){
+            case 1 -> {sortTasksByPriority();}
+            case 2 -> {sortTasksByCreationDate();}
+            case 3 -> {sortTasksByDescription();}
+            case 4 -> {markOverdueTasks();}
+        }
     }
 
     public void showAllTasks() {
@@ -53,14 +78,14 @@ public class TaskManager {
     }
 
     private void changeTask(String nameOfTask, String change) throws CustomException {
-        for(Task task: tasks){
-            if(task.getTitle().equalsIgnoreCase(nameOfTask)){
+        for (Task task : tasks) {
+            if (task.getTitle().equalsIgnoreCase(nameOfTask)) {
                 try {
                     switch (change) {
                         case "d", "D" -> changeDescription(task);
                         case "s", "S" -> changeStatus(task);
                     }
-                } catch (RuntimeException | CustomException e){
+                } catch (RuntimeException | CustomException e) {
                     changeTask(nameOfTask, change);
                 }
             }
@@ -71,7 +96,7 @@ public class TaskManager {
         tasks.removeIf(e -> e.getTitle().equalsIgnoreCase(name));
     }
 
-    private void saveToJson() {
+    public void saveToJson() {
         FileUtil.writeFile(tasks);
     }
 
@@ -118,30 +143,34 @@ public class TaskManager {
         var result = tasks.stream()
                 .sorted(Comparator.comparing(Task::getPriority))
                 .toList();
+        result.forEach(Task::displayTask);
     }
 
     private void sortTasksByCreationDate() {
         var result = tasks.stream()
                 .sorted(Comparator.comparing(Task::getCreatedDate))
                 .toList();
+        result.forEach(Task::displayTask);
     }
 
     private void sortTasksByDescription() {
         var result = tasks.stream()
-                .sorted(Comparator.comparing(Task::getDescription))
+                .sorted(Comparator.comparing(c -> c.getDescription().getBytes().length))
                 .toList();
+        result.forEach(Task::displayTask);
     }
 
     private void displayMenu() {
         System.out.println("""
-        ===== Task Manager Menu =====
-        1. Show all tasks
-        2. Add a new task
-        3. Change task status(s) or Description(d)
-        4. Delete a task
-        5. Save and exit
-       ==============================
-       """);
+                 ===== Task Manager Menu =====
+                 1. Show all tasks
+                 2. Add a new task
+                 3. Change task status(s) or Description(d)
+                 4. Delete a task
+                 5. Display the tasks by sorting.
+                 6. Save and exit
+                ==============================
+                """);
     }
 
     private void changeDescription(Task task) throws CustomException {
@@ -151,15 +180,16 @@ public class TaskManager {
     }
 
     private void changeStatus(Task task) throws CustomException {
-        if(task.getStatus() != Status.DONE){
+        if (task.getStatus() != Status.DONE) {
+        System.out.println("На какой статус вы хотите поменять задачу?" +
+                "(Type 'p' - for In Progress and 'd' - for done): ");
             String line = new Scanner(System.in).nextLine();
-            System.out.println("На какой статус вы хотите поменять задачу?" +
-                    "(Type 'p' - for In Progress and 'd' - for done): ");
             switch (line) {
                 case "p", "P" -> task.setStatus(task.getStatus().changeToIN_PROGRESS(task));
                 case "d", "D" -> task.setStatus(task.getStatus().changeToDONE(task));
             }
-        } else{
+            saveToJson();
+        } else {
             System.out.println("You can't change the task that is done.");
         }
     }
@@ -175,7 +205,7 @@ public class TaskManager {
 
     }
 
-    private Priority choosePriority(){
+    private Priority choosePriority() {
         System.out.println("What priority of a task do you want to choose?" +
                 " ('L' - for low, 'M' - for medium, 'H' - for high): ");
         String str = sc.nextLine().toLowerCase().strip();

@@ -9,7 +9,7 @@ public enum Status {
         @Override
         public Status changeToIN_PROGRESS(Task task) {
             task.setStatus(Status.IN_PROGRESS);
-            return null;
+            return IN_PROGRESS;
         }
 
         @Override
@@ -36,7 +36,7 @@ public enum Status {
         @Override
         public Status changeToDONE(Task task) {
             task.setStatus(Status.DONE);
-            return null;
+            return DONE;
         }
 
         @Override
