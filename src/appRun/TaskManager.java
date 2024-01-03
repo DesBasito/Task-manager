@@ -1,12 +1,13 @@
 package appRun;
 
 import Exceptions.CustomException;
+import appRun.Task;
 import state.Priority;
 import state.Status;
 import util.FileUtil;
 
-import java.io.IOException;
 import java.text.ParseException;
+import java.io.IOException;
 import java.time.Instant;
 import java.util.*;
 
@@ -41,11 +42,14 @@ public class TaskManager {
                 case 3 -> {
                     System.out.print("Enter name of the task: ");
                     String nameOfTask = sc.nextLine().strip();
-                    System.out.print("Enter what do u want to change (s - status, d - description): ");
-                    String change = sc.nextLine().strip();
+                    System.out.print("Enter what do u want to change " +
+                            "\n(s - status, d - description, pr - priority): ");
+                    String change = sc.nextLine().strip().toLowerCase();
                     changeTask(nameOfTask, change);
+                    saveToJson();
                 }
                 case 4 -> {
+                    System.out.print("Enter the name of the title: ");
                     String name = sc.nextLine().strip();
                     deleteTask(name);
                 }
@@ -53,6 +57,7 @@ public class TaskManager {
                     sortedList();
                 }
                 case 6 -> {
+                    saveToJson();
                     brake = true;
                 }
             }
@@ -98,14 +103,16 @@ public class TaskManager {
 
     private void changeTask(String nameOfTask, String change) throws CustomException {
         for (Task task : tasks) {
-            if (task.getTitle().equalsIgnoreCase(nameOfTask)) {
+            if (task.getTitle().contains(nameOfTask)) {
                 try {
                     switch (change) {
-                        case "d", "D" -> changeDescription(task);
-                        case "s", "S" -> changeStatus(task);
+                        case "d" -> changeDescription(task);
+                        case "s" -> changeStatus(task);
+                        case "pr" -> task.setPriority(choosePriority());
                     }
                     // todo saveToJson(); for saving changes in Json;
                 } catch (RuntimeException | CustomException e) {
+                    System.out.println(e.getMessage());
                     changeTask(nameOfTask, change);
                 }
             }
@@ -124,10 +131,10 @@ public class TaskManager {
                 tasks.remove(task);
                 System.out.println(CYAN + "Task successfully deleted!" + RESET);
             } else {
-                System.out.println("You can only delete tasks that are in the 'NEW' status.");
+                System.out.println(RED + "You can only delete tasks that are in the 'NEW' status."+RESET);
             }
         } else {
-            System.out.println("There is no task with this name...");
+            System.out.println(YELLOW+"There is no task with this name..."+RESET);
         }
     }
 
@@ -135,16 +142,16 @@ public class TaskManager {
         FileUtil.writeFile(tasks);
     }
 
-    public List<Task> loadFromJson() throws ParseException, CustomException {
+    private List<Task> loadFromJson() throws ParseException, CustomException {
         try {
             return FileUtil.readFile();
         } catch (IOException e) {
-            System.out.println("""
+            System.out.println(YELLOW+"""
                     There are no tasks. Would you like to create new tasks?
                      1. Yes
                      2. No, exit
-                    """);
-            System.out.println("--> ");
+                     -->
+                    """ +RESET);
             String answer = sc.nextLine().trim();
             while (true) {
                 switch (answer) {
@@ -166,7 +173,7 @@ public class TaskManager {
     }
 
     private void markOverdueTasks() {
-        tasks = new ArrayList<>(tasks);  // Преобразовать в изменяемый список
+        tasks = new ArrayList<>(tasks);  // Преобразовываю в изменяемый список
         tasks = tasks.stream()
                 .peek(task -> {
                     if (task.getStatus() == Status.IN_PROGRESS
@@ -203,7 +210,7 @@ public class TaskManager {
                  ===== Task Manager Menu =====
                  1. Show all tasks
                  2. Add a new task
-                 3. Change task status(s) or Description(d)
+                 3. Change task Status(s), Description(d) or Priority(pr)
                  4. Delete a task
                  5. Display the tasks by sorting.
                  6. Save and exit
@@ -221,12 +228,11 @@ public class TaskManager {
         if (task.getStatus() != Status.DONE) {
             System.out.println("На какой статус вы хотите поменять задачу?" +
                     "(Type 'p' - for In Progress and 'd' - for done): ");
-            String line = new Scanner(System.in).nextLine();
+            String line = new Scanner(System.in).nextLine().toLowerCase();
             switch (line) {
-                case "p", "P" -> task.setStatus(task.getStatus().changeToIN_PROGRESS(task));
-                case "d", "D" -> task.setStatus(task.getStatus().changeToDONE(task));
+                case "p" -> task.setStatus(task.getStatus().changeToIN_PROGRESS(task));
+                case "d" -> task.setStatus(task.getStatus(). changeToDONE(task));
             }
-//            saveToJson();
         } else {
             System.out.println("You can't change the task that is done.");
         }

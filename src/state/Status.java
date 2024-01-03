@@ -14,7 +14,7 @@ public enum Status {
 
         @Override
         public Status changeToDONE(Task task) throws CustomException {
-            throw new CustomException("You cannot make new task as done");
+            throw new CustomException(TaskManager.RED+"You cannot make new task as done"+TaskManager.RESET);
         }
 
         @Override
@@ -22,15 +22,11 @@ public enum Status {
             task.setDescription(msg);
         }
 
-//        @Override
-//        public void delete(Task task, TaskManager todo) {
-//            todo.deleteTask(task.getTitle());
-//        }
     },
     IN_PROGRESS {
         @Override
         public Status changeToIN_PROGRESS(Task task) throws CustomException {
-            throw new CustomException("The task is already in progress");
+            throw new CustomException(TaskManager.RED+"The task is already in progress"+TaskManager.RESET);
         }
 
         @Override
@@ -41,34 +37,24 @@ public enum Status {
 
         @Override
         public void changeDescription(Task task, String msg) throws CustomException {
-            throw new CustomException("You cannot change description in task which is already in progress");
+            throw new CustomException(TaskManager.RED+"You cannot change description in task which is already in progress"+TaskManager.RESET);
         }
-
-//        @Override
-//        public void delete(Task task, TaskManager todo) throws CustomException {
-//            throw new CustomException("You cannot delete task which is already in progress");
-//        }
     },
     DONE {
         @Override
         public Status changeToIN_PROGRESS(Task task) throws CustomException {
-            throw new CustomException("Task has already been done");
+            throw new CustomException(TaskManager.RED+"Task has already been done"+TaskManager.RESET);
         }
 
         @Override
         public Status changeToDONE(Task task) throws CustomException {
-            throw new CustomException("Task has already been done");
+            throw new CustomException(TaskManager.RED+"Task has already been done"+TaskManager.RESET);
         }
 
         @Override
         public void changeDescription(Task task, String msg) throws CustomException {
-            throw new CustomException("You cannot change description in task which has been done");
+            throw new CustomException(TaskManager.RED+"You cannot change description in task which has been done"+TaskManager.RESET);
         }
-
-//        @Override
-//        public void delete(Task task, TaskManager todo) throws CustomException {
-//            throw new CustomException("You cannot delete task which has been done");
-//        }
     };
 
     public abstract Status changeToIN_PROGRESS (Task task) throws CustomException;
@@ -76,6 +62,5 @@ public enum Status {
     public abstract Status changeToDONE(Task task) throws CustomException;
 
     public abstract void changeDescription(Task task, String msg) throws CustomException;
-//    public abstract void delete(Task task, TaskManager todo) throws CustomException;
 
 }
