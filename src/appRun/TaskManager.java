@@ -68,11 +68,11 @@ public class TaskManager {
     }
 
     private void sortedList() {
-        System.out.println("""
+        System.out.println(PURPLE + """
                 1. Sorted tasks by priority
                 2. Sorted tasks by creation date
                 3. Sorted tasks by description
-                """);
+                """ + RESET);
         int num = num("choice: ", 3);
         switch (num) {
             case 1 -> {
@@ -131,10 +131,10 @@ public class TaskManager {
                 tasks.remove(task);
                 System.out.println(CYAN + "Task successfully deleted!" + RESET);
             } else {
-                System.out.println(RED + "You can only delete tasks that are in the 'NEW' status."+RESET);
+                System.out.println(RED + "You can only delete tasks that are in the 'NEW' status." + RESET);
             }
         } else {
-            System.out.println(YELLOW+"There is no task with this name..."+RESET);
+            System.out.println(YELLOW + "There is no task with this name..." + RESET);
         }
     }
 
@@ -146,12 +146,12 @@ public class TaskManager {
         try {
             return FileUtil.readFile();
         } catch (IOException e) {
-            System.out.println(YELLOW+"""
+            System.out.println(YELLOW + """
                     There are no tasks. Would you like to create new tasks?
                      1. Yes
                      2. No, exit
                      -->
-                    """ +RESET);
+                    """ + RESET);
             String answer = sc.nextLine().trim();
             while (true) {
                 switch (answer) {
@@ -163,10 +163,10 @@ public class TaskManager {
                         runApp();
                     }
                     case "2" -> {
-                        System.out.println("Shutting down...");
+                        System.out.println(BLUE + "Shutting down..." + RESET);
                         return null;
                     }
-                    default -> System.out.println("Answer isn't correct, try again...");
+                    default -> System.out.println(RED + "Answer isn't correct, try again..." + RESET);
                 }
             }
         }
@@ -206,7 +206,7 @@ public class TaskManager {
     }
 
     private void displayMenu() {
-        System.out.println("""
+        System.out.println(PURPLE + """
                  ===== Task Manager Menu =====
                  1. Show all tasks
                  2. Add a new task
@@ -215,7 +215,7 @@ public class TaskManager {
                  5. Display the tasks by sorting.
                  6. Save and exit
                 ==============================
-                """);
+                """ + RESET);
     }
 
     private void changeDescription(Task task) throws CustomException {
@@ -231,16 +231,26 @@ public class TaskManager {
             String line = new Scanner(System.in).nextLine().toLowerCase();
             switch (line) {
                 case "p" -> task.setStatus(task.getStatus().changeToIN_PROGRESS(task));
-                case "d" -> task.setStatus(task.getStatus(). changeToDONE(task));
+                case "d" -> task.setStatus(task.getStatus().changeToDONE(task));
             }
         } else {
-            System.out.println("You can't change the task that is done.");
+            System.out.println(RED + "You can't change the task that is done." + RESET);
         }
     }
 
     private void createNewTask() throws ParseException {
         System.out.print("Enter the name of the title: ");
         String title = sc.nextLine().strip();
+        tasks.forEach(o -> {
+            if (o.getTitle().contains(title)) {
+                System.out.println(RED + "this name is already defined!" + RESET);
+                try {
+                    createNewTask();
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
         System.out.print("Enter the description of the title: ");
         String description = sc.nextLine();
         System.out.print("Enter the completion date: ");
@@ -268,7 +278,7 @@ public class TaskManager {
                 priority = Priority.HIGH;
             }
             default -> {
-                System.out.println("You entered wrong letter");
+                System.out.println(RED + "You entered wrong letter" + RESET);
                 return choosePriority();
             }
         }
@@ -280,10 +290,10 @@ public class TaskManager {
         try {
             String str = new Scanner(System.in).nextLine();
             if (str.isEmpty() || str.isBlank()) {
-                throw new NoSuchElementException(String.format("%s :", "field cannot be empty"));
+                throw new NoSuchElementException(String.format(RED + "%s :" + RESET, "field cannot be empty"));
             }
             if (Integer.parseInt(str) < 1 || Integer.parseInt(str) > max) {
-                throw new IllegalArgumentException(String.format("%s :", "r u serious?: "));
+                throw new IllegalArgumentException(String.format(RED + "%s :" + RESET, "r u serious?: "));
             }
             return Integer.parseInt(str);
         } catch (NoSuchElementException | NumberFormatException e) {
