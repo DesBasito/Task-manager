@@ -135,7 +135,7 @@ public class TaskManager {
         FileUtil.writeFile(tasks);
     }
 
-    public List<Task> loadFromJson() throws ParseException {
+    public List<Task> loadFromJson() throws ParseException, CustomException {
         try {
             return FileUtil.readFile();
         } catch (IOException e) {
