@@ -14,7 +14,7 @@ public enum Status {
 
         @Override
         public Status changeToDONE(Task task) throws CustomException {
-            throw new CustomException(TaskManager.RED+"You cannot make new task as done"+TaskManager.RESET);
+            throw new CustomException("\u001B[31m"+"You cannot make new task as done"+"\u001B[0m");
         }
 
         @Override
