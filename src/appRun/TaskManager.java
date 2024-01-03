@@ -9,13 +9,19 @@ import java.text.ParseException;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class TaskManager {
+    public static final String RESET = "\u001B[0m";
+    public static final String RED = "\u001B[31m";
+    public static final String GREEN = "\u001B[32m";
+    public static final String YELLOW = "\u001B[33m";
+    public static final String BLUE = "\u001B[34m";
+    public static final String PURPLE = "\u001B[35m";
+    public static final String CYAN = "\u001B[36m";
     private static final Scanner sc = new Scanner(System.in);
     private List<Task> tasks;
 
-    public TaskManager() throws ParseException {
+    public TaskManager() throws ParseException, CustomException {
         this.tasks = loadFromJson();
     }
 
@@ -58,14 +64,12 @@ public class TaskManager {
                 1. Sorted tasks by priority
                 2. Sorted tasks by creation date
                 3. Sorted tasks by description
-                4. Display all overdue tasks
                 """);
-        int num = num("choice: ",4);
+        int num = num("choice: ",3);
         switch (num){
             case 1 -> {sortTasksByPriority();}
             case 2 -> {sortTasksByCreationDate();}
             case 3 -> {sortTasksByDescription();}
-            case 4 -> {markOverdueTasks();}
         }
     }
 
@@ -85,6 +89,7 @@ public class TaskManager {
                         case "d", "D" -> changeDescription(task);
                         case "s", "S" -> changeStatus(task);
                     }
+                    // todo saveToJson(); for saving changes in Json;
                 } catch (RuntimeException | CustomException e) {
                     changeTask(nameOfTask, change);
                 }
@@ -100,7 +105,7 @@ public class TaskManager {
         FileUtil.writeFile(tasks);
     }
 
-    private List<Task> loadFromJson() throws ParseException {
+    private List<Task> loadFromJson() throws ParseException, CustomException {
         try {
             return FileUtil.readFile();
         } catch (IOException e) {
@@ -115,9 +120,10 @@ public class TaskManager {
                 switch (answer) {
                     case "1" -> {
                         createNewTask();
-                        saveToJson(); // либо реализуем сохранения в самих методах, либо же переносим сохранение в интерфейс
+                        saveToJson(); //todo либо реализуем сохранения в самих методах, либо же переносим сохранение в интерфейс
                         // Далее вызвать меню
                         loadFromJson();
+                        runApp();
                     }
                     case "2" -> {
                         System.out.println("Shutting down...");
@@ -134,7 +140,8 @@ public class TaskManager {
                 .peek(task -> {
                     if (task.getStatus() == Status.IN_PROGRESS
                             && task.getCompletionDate().before(Date.from(Instant.now())))
-                        task.setTitle(task.getTitle() + "*");
+                        task.setTitle(RED+task.getTitle() + " *"+RESET);
+                    else task.setTitle(GREEN+task.getTitle()+RESET);
                 })
                 .toList();
     }
