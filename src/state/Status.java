@@ -2,7 +2,6 @@ package state;
 
 import Exceptions.CustomException;
 import appRun.Task;
-import appRun.TaskManager;
 
 public enum Status {
     NEW {

@@ -1,6 +1,5 @@
-package appRun;
-
 import Exceptions.CustomException;
+import appRun.Task;
 import state.Priority;
 import state.Status;
 import util.FileUtil;
@@ -47,6 +46,7 @@ public class TaskManager {
                     changeTask(nameOfTask, change);
                 }
                 case 4 -> {
+                    System.out.print("Enter the name of the title: ");
                     String name = sc.nextLine().strip();
                     deleteTask(name);
                 }
@@ -99,7 +99,7 @@ public class TaskManager {
 
     private void changeTask(String nameOfTask, String change) throws CustomException {
         for (Task task : tasks) {
-            if (task.getTitle().equalsIgnoreCase(nameOfTask)) {
+            if (task.getTitle().contains(nameOfTask)) {
                 try {
                     switch (change) {
                         case "d", "D" -> changeDescription(task);
@@ -107,6 +107,7 @@ public class TaskManager {
                     }
                     // todo saveToJson(); for saving changes in Json;
                 } catch (RuntimeException | CustomException e) {
+                    System.out.println(e.getMessage());
                     changeTask(nameOfTask, change);
                 }
             }
@@ -225,9 +226,9 @@ public class TaskManager {
             String line = new Scanner(System.in).nextLine();
             switch (line) {
                 case "p", "P" -> task.setStatus(task.getStatus().changeToIN_PROGRESS(task));
-                case "d", "D" -> task.setStatus(task.getStatus().changeToDONE(task));
+                case "d", "D" -> task.setStatus(task.getStatus(). changeToDONE(task));
             }
-            saveToJson();
+//            saveToJson();
         } else {
             System.out.println("You can't change the task that is done.");
         }
@@ -251,7 +252,7 @@ public class TaskManager {
         System.out.println("What priority of a task do you want to choose?" +
                 " ('L' - for low, 'M' - for medium, 'H' - for high): ");
         String str = sc.nextLine().toLowerCase().strip();
-        Priority priority = null;
+        Priority priority;
         switch (str) {
             case "l" -> {
                 priority = Priority.LOW;
