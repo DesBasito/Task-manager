@@ -1,6 +1,6 @@
 [
   {
-    "title": "Cardify",
+    "title": "\u001b[31mCardify (overdue task)\u001b[0m",
     "description": "Nulla nisl. Nunc nisl. Duis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa. Donec dapibus.",
     "completionDate": "7/29/2022",
     "createdDate": "5/12/2021",
@@ -8,7 +8,7 @@
     "status": "IN_PROGRESS"
   },
   {
-    "title": "Lotstring",
+    "title": "\u001b[32mLotstring\u001b[0m",
     "description": "Curabitur convallis. Duis consequat dui nec nisi volutpat eleifend. Donec ut dolor. Morbi vel lectus in quam fringilla rhoncus. Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero.",
     "completionDate": "5/30/2022",
     "createdDate": "8/15/2021",
@@ -16,7 +16,7 @@
     "status": "NEW"
   },
   {
-    "title": "Pannier",
+    "title": "\u001b[32mPannier\u001b[0m",
     "description": "Suspendisse accumsan tortor quis turpis. Sed ante. Vivamus tortor. Duis mattis egestas metus.",
     "completionDate": "2/4/2022",
     "createdDate": "2/3/2021",
@@ -24,7 +24,7 @@
     "status": "DONE"
   },
   {
-    "title": "Y-find",
+    "title": "\u001b[31mY-find (overdue task)\u001b[0m",
     "description": "Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem.",
     "completionDate": "11/3/2022",
     "createdDate": "6/18/2021",
@@ -32,7 +32,7 @@
     "status": "IN_PROGRESS"
   },
   {
-    "title": "Cookley",
+    "title": "\u001b[32mCookley\u001b[0m",
     "description": "Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui. Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc.",
     "completionDate": "9/11/2022",
     "createdDate": "5/3/2021",
@@ -40,7 +40,7 @@
     "status": "NEW"
   },
   {
-    "title": "Pannier",
+    "title": "\u001b[31mPannier (overdue task)\u001b[0m",
     "description": "Aliquam erat volutpat. In congue. Etiam justo.",
     "completionDate": "6/11/2022",
     "createdDate": "6/23/2021",
@@ -48,7 +48,7 @@
     "status": "IN_PROGRESS"
   },
   {
-    "title": "Andalax",
+    "title": "\u001b[32mAndalax\u001b[0m",
     "description": "Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem. Integer tincidunt ante vel ipsum. Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat. Praesent blandit. Nam nulla.",
     "completionDate": "12/19/2022",
     "createdDate": "12/26/2021",
@@ -56,7 +56,7 @@
     "status": "NEW"
   },
   {
-    "title": "Voltsillam",
+    "title": "\u001b[32mVoltsillam\u001b[0m",
     "description": "Aenean fermentum. Donec ut mauris eget massa tempor convallis.",
     "completionDate": "3/6/2022",
     "createdDate": "3/8/2021",
@@ -64,7 +64,7 @@
     "status": "NEW"
   },
   {
-    "title": "Y-Solowarm",
+    "title": "\u001b[31mY-Solowarm (overdue task)\u001b[0m",
     "description": "Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede. Morbi porttitor lorem id ligula. Suspendisse ornare consequat lectus. In est risus, auctor sed, tristique in, tempus sit amet, sem. Fusce consequat. Nulla nisl. Nunc nisl. Duis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa.",
     "completionDate": "6/30/2022",
     "createdDate": "7/9/2021",
@@ -72,7 +72,7 @@
     "status": "IN_PROGRESS"
   },
   {
-    "title": "Ronstring",
+    "title": "\u001b[31mRonstring (overdue task)\u001b[0m",
     "description": "Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus. Phasellus in felis. Donec semper sapien a libero.",
     "completionDate": "5/19/2022",
     "createdDate": "2/21/2021",
@@ -80,7 +80,7 @@
     "status": "IN_PROGRESS"
   },
   {
-    "title": "Cardify",
+    "title": "\u001b[32mCardify\u001b[0m",
     "description": "Integer tincidunt ante vel ipsum. Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat. Praesent blandit. Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede. Morbi porttitor lorem id ligula. Suspendisse ornare consequat lectus. In est risus, auctor sed, tristique in, tempus sit amet, sem.",
     "completionDate": "4/10/2022",
     "createdDate": "1/3/2021",
@@ -88,7 +88,7 @@
     "status": "NEW"
   },
   {
-    "title": "Zaam-Dox",
+    "title": "\u001b[32mZaam-Dox\u001b[0m",
     "description": "Etiam faucibus cursus urna. Ut tellus. Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi. Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.",
     "completionDate": "5/25/2022",
     "createdDate": "9/21/2021",
@@ -96,7 +96,7 @@
     "status": "DONE"
   },
   {
-    "title": "Andalax",
+    "title": "\u001b[32mAndalax\u001b[0m",
     "description": "Quisque id justo sit amet sapien dignissim vestibulum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla dapibus dolor vel est. Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros. Vestibulum ac est lacinia nisi venenatis tristique.",
     "completionDate": "12/16/2022",
     "createdDate": "7/14/2021",
@@ -104,7 +104,7 @@
     "status": "DONE"
   },
   {
-    "title": "Asoka",
+    "title": "\u001b[32mAsoka\u001b[0m",
     "description": "Curabitur in libero ut massa volutpat convallis. Morbi odio odio, elementum eu, interdum eu, tincidunt in, leo. Maecenas pulvinar lobortis est. Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum. Proin eu mi. Nulla ac enim.",
     "completionDate": "1/28/2022",
     "createdDate": "3/9/2021",
@@ -112,7 +112,7 @@
     "status": "NEW"
   },
   {
-    "title": "Opela",
+    "title": "\u001b[32mOpela\u001b[0m",
     "description": "Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio. Curabitur convallis.",
     "completionDate": "9/25/2022",
     "createdDate": "6/25/2021",
@@ -120,7 +120,7 @@
     "status": "NEW"
   },
   {
-    "title": "Hatity",
+    "title": "\u001b[32mHatity\u001b[0m",
     "description": "In blandit ultrices enim. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.",
     "completionDate": "6/9/2022",
     "createdDate": "6/17/2021",
@@ -128,7 +128,7 @@
     "status": "DONE"
   },
   {
-    "title": "Span",
+    "title": "\u001b[32mSpan\u001b[0m",
     "description": "Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Etiam vel augue. Vestibulum rutrum rutrum neque. Aenean auctor gravida sem. Praesent id massa id nisl venenatis lacinia. Aenean sit amet justo. Morbi ut odio. Cras mi pede, malesuada in, imperdiet et, commodo vulputate, justo. In blandit ultrices enim. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.",
     "completionDate": "5/1/2022",
     "createdDate": "1/1/2021",
@@ -136,7 +136,7 @@
     "status": "DONE"
   },
   {
-    "title": "Vagram",
+    "title": "\u001b[31mVagram (overdue task)\u001b[0m",
     "description": "Donec quis orci eget orci vehicula condimentum. Curabitur in libero ut massa volutpat convallis. Morbi odio odio, elementum eu, interdum eu, tincidunt in, leo. Maecenas pulvinar lobortis est. Phasellus sit amet erat. Nulla tempus.",
     "completionDate": "5/21/2022",
     "createdDate": "6/8/2021",
@@ -144,7 +144,7 @@
     "status": "IN_PROGRESS"
   },
   {
-    "title": "Prodder",
+    "title": "\u001b[31mProdder (overdue task)\u001b[0m",
     "description": "Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis. Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem. Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus. Pellentesque at nulla.",
     "completionDate": "2/6/2022",
     "createdDate": "10/15/2021",
@@ -152,7 +152,7 @@
     "status": "IN_PROGRESS"
   },
   {
-    "title": "Quo Lux",
+    "title": "\u001b[32mQuo Lux\u001b[0m",
     "description": "Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti. Nullam porttitor lacus at turpis. Donec posuere metus vitae ipsum. Aliquam non mauris. Morbi non lectus.",
     "completionDate": "6/12/2022",
     "createdDate": "10/20/2021",
@@ -160,7 +160,7 @@
     "status": "DONE"
   },
   {
-    "title": "Konklab",
+    "title": "\u001b[31mKonklab (overdue task)\u001b[0m",
     "description": "Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
     "completionDate": "8/10/2022",
     "createdDate": "4/9/2021",
@@ -168,7 +168,7 @@
     "status": "IN_PROGRESS"
   },
   {
-    "title": "Otcom",
+    "title": "\u001b[31mOtcom (overdue task)\u001b[0m",
     "description": "Nulla justo. Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros.",
     "completionDate": "4/14/2022",
     "createdDate": "11/10/2021",
@@ -176,7 +176,7 @@
     "status": "IN_PROGRESS"
   },
   {
-    "title": "Fix San",
+    "title": "\u001b[32mFix San\u001b[0m",
     "description": "Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque. Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus. Phasellus in felis. Donec semper sapien a libero.",
     "completionDate": "10/28/2022",
     "createdDate": "1/7/2021",
@@ -184,7 +184,7 @@
     "status": "NEW"
   },
   {
-    "title": "Stronghold",
+    "title": "\u001b[32mStronghold\u001b[0m",
     "description": "Suspendisse ornare consequat lectus. In est risus, auctor sed, tristique in, tempus sit amet, sem.",
     "completionDate": "7/9/2022",
     "createdDate": "8/23/2021",
@@ -192,7 +192,7 @@
     "status": "DONE"
   },
   {
-    "title": "Stim",
+    "title": "\u001b[32mStim\u001b[0m",
     "description": "Integer a nibh. In quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet. Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.",
     "completionDate": "6/20/2022",
     "createdDate": "6/18/2021",
