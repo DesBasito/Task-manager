@@ -110,7 +110,6 @@ public class TaskManager {
                         case "s" -> changeStatus(task);
                         case "pr" -> task.setPriority(choosePriority());
                     }
-                    // todo saveToJson(); for saving changes in Json;
                 } catch (RuntimeException | CustomException e) {
                     System.out.println(e.getMessage());
                     changeTask(nameOfTask, change);
