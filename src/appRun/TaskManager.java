@@ -88,7 +88,9 @@ public class TaskManager {
 
     private void addNewTask(String title, String description, String completionDate, String createdDate, Priority priority) throws ParseException {
         try {
-            tasks.add(new Task(title, description, completionDate, createdDate, priority));
+            List<Task> updatedTasks = new ArrayList<>(tasks);
+            updatedTasks.add(new Task(title, description, completionDate, createdDate, priority));
+            tasks = updatedTasks;
         } catch (ParseException e) {
             System.out.println(e.getMessage());
             createNewTask();
@@ -165,6 +167,7 @@ public class TaskManager {
     }
 
     private void markOverdueTasks() {
+        tasks = new ArrayList<>(tasks);  // Преобразовать в изменяемый список
         tasks = tasks.stream()
                 .peek(task -> {
                     if (task.getStatus() == Status.IN_PROGRESS
