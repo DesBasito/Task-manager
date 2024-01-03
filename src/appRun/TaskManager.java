@@ -1,7 +1,6 @@
 package appRun;
 
 import Exceptions.CustomException;
-import appRun.Task;
 import state.Priority;
 import state.Status;
 import util.FileUtil;
@@ -33,12 +32,8 @@ public class TaskManager {
             displayMenu();
             int num = num("Action: ", 5);
             switch (num) {
-                case 1 -> {
-                    showAllTasks();
-                }
-                case 2 -> {
-                    createNewTask();
-                }
+                case 1 -> showAllTasks();
+                case 2 -> createNewTask();
                 case 3 -> {
                     System.out.print("Enter name of the task: ");
                     String nameOfTask = sc.nextLine().strip();
@@ -53,9 +48,7 @@ public class TaskManager {
                     String name = sc.nextLine().strip();
                     deleteTask(name);
                 }
-                case 5 -> {
-                    sortedList();
-                }
+                case 5 -> sortedList();
                 case 6 -> {
                     saveToJson();
                     brake = true;
@@ -74,15 +67,9 @@ public class TaskManager {
                 """);
         int num = num("choice: ", 3);
         switch (num) {
-            case 1 -> {
-                sortTasksByPriority();
-            }
-            case 2 -> {
-                sortTasksByCreationDate();
-            }
-            case 3 -> {
-                sortTasksByDescription();
-            }
+            case 1 -> sortTasksByPriority();
+            case 2 -> sortTasksByCreationDate();
+            case 3 -> sortTasksByDescription();
         }
     }
 
@@ -254,15 +241,9 @@ public class TaskManager {
         String str = sc.nextLine().toLowerCase().strip();
         Priority priority;
         switch (str) {
-            case "l" -> {
-                priority = Priority.LOW;
-            }
-            case "m" -> {
-                priority = Priority.MEDIUM;
-            }
-            case "h" -> {
-                priority = Priority.HIGH;
-            }
+            case "l" -> priority = Priority.LOW;
+            case "m" -> priority = Priority.MEDIUM;
+            case "h" -> priority = Priority.HIGH;
             default -> {
                 System.out.println("You entered wrong letter");
                 return choosePriority();
