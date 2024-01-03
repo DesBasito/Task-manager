@@ -5,8 +5,8 @@ import state.Priority;
 import state.Status;
 import util.FileUtil;
 
-import java.text.ParseException;
 import java.io.IOException;
+import java.text.ParseException;
 import java.time.Instant;
 import java.util.*;
 
@@ -135,7 +135,7 @@ public class TaskManager {
         FileUtil.writeFile(tasks);
     }
 
-    private List<Task> loadFromJson() throws ParseException, CustomException {
+    public List<Task> loadFromJson() throws ParseException {
         try {
             return FileUtil.readFile();
         } catch (IOException e) {
@@ -226,7 +226,7 @@ public class TaskManager {
                 case "p", "P" -> task.setStatus(task.getStatus().changeToIN_PROGRESS(task));
                 case "d", "D" -> task.setStatus(task.getStatus().changeToDONE(task));
             }
-            saveToJson();
+//            saveToJson();
         } else {
             System.out.println("You can't change the task that is done.");
         }
@@ -243,14 +243,13 @@ public class TaskManager {
         String createdDate = sc.nextLine();
         Priority priority = choosePriority();
         addNewTask(title, description, completionDate, createdDate, priority);
-
     }
 
     private Priority choosePriority() {
         System.out.println("What priority of a task do you want to choose?" +
                 " ('L' - for low, 'M' - for medium, 'H' - for high): ");
         String str = sc.nextLine().toLowerCase().strip();
-        Priority priority = null;
+        Priority priority;
         switch (str) {
             case "l" -> {
                 priority = Priority.LOW;
