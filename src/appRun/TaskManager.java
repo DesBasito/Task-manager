@@ -9,6 +9,7 @@ import java.text.ParseException;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class TaskManager {
     public static final String RESET = "\u001B[0m";
@@ -52,24 +53,32 @@ public class TaskManager {
                 case 5 -> {
                     sortedList();
                 }
-                case 6->{brake = true;}
+                case 6 -> {
+                    brake = true;
+                }
             }
         }
 
 
     }
 
-    private void sortedList(){
+    private void sortedList() {
         System.out.println("""
                 1. Sorted tasks by priority
                 2. Sorted tasks by creation date
                 3. Sorted tasks by description
                 """);
-        int num = num("choice: ",3);
-        switch (num){
-            case 1 -> {sortTasksByPriority();}
-            case 2 -> {sortTasksByCreationDate();}
-            case 3 -> {sortTasksByDescription();}
+        int num = num("choice: ", 3);
+        switch (num) {
+            case 1 -> {
+                sortTasksByPriority();
+            }
+            case 2 -> {
+                sortTasksByCreationDate();
+            }
+            case 3 -> {
+                sortTasksByDescription();
+            }
         }
     }
 
@@ -78,7 +87,12 @@ public class TaskManager {
     }
 
     private void addNewTask(String title, String description, String completionDate, String createdDate, Priority priority) throws ParseException {
-        tasks.add(new Task(title, description, completionDate, createdDate, priority));
+        try {
+            tasks.add(new Task(title, description, completionDate, createdDate, priority));
+        } catch (ParseException e) {
+            System.out.println(e.getMessage());
+            createNewTask();
+        }
     }
 
     private void changeTask(String nameOfTask, String change) throws CustomException {
@@ -97,8 +111,23 @@ public class TaskManager {
         }
     }
 
-    public void deleteTask(String name) {
-        tasks.removeIf(e -> e.getTitle().equalsIgnoreCase(name));
+    private void deleteTask(String name) {
+        Optional<Task> taskToRemove = tasks.stream()
+                .filter(task -> task.getTitle().contains(name))
+                .findFirst();
+
+        if (taskToRemove.isPresent()) {
+            Task task = taskToRemove.get();
+            if (task.getStatus() == Status.NEW) {
+                tasks = new ArrayList<>(tasks);  // Convert to a mutable list
+                tasks.remove(task);
+                System.out.println(CYAN + "Task successfully deleted!" + RESET);
+            } else {
+                System.out.println("You can only delete tasks that are in the 'NEW' status.");
+            }
+        } else {
+            System.out.println("There is no task with this name...");
+        }
     }
 
     public void saveToJson() {
@@ -140,8 +169,8 @@ public class TaskManager {
                 .peek(task -> {
                     if (task.getStatus() == Status.IN_PROGRESS
                             && task.getCompletionDate().before(Date.from(Instant.now())))
-                        task.setTitle(RED+task.getTitle() + " *"+RESET);
-                    else task.setTitle(GREEN+task.getTitle()+RESET);
+                        task.setTitle(RED + task.getTitle() + " (overdue task)" + RESET);
+                    else task.setTitle(GREEN + task.getTitle() + RESET);
                 })
                 .toList();
     }
@@ -188,8 +217,8 @@ public class TaskManager {
 
     private void changeStatus(Task task) throws CustomException {
         if (task.getStatus() != Status.DONE) {
-        System.out.println("На какой статус вы хотите поменять задачу?" +
-                "(Type 'p' - for In Progress and 'd' - for done): ");
+            System.out.println("На какой статус вы хотите поменять задачу?" +
+                    "(Type 'p' - for In Progress and 'd' - for done): ");
             String line = new Scanner(System.in).nextLine();
             switch (line) {
                 case "p", "P" -> task.setStatus(task.getStatus().changeToIN_PROGRESS(task));
@@ -204,8 +233,11 @@ public class TaskManager {
     private void createNewTask() throws ParseException {
         System.out.print("Enter the name of the title: ");
         String title = sc.nextLine().strip();
+        System.out.print("Enter the description of the title: ");
         String description = sc.nextLine();
+        System.out.print("Enter the completion date: ");
         String completionDate = sc.nextLine();
+        System.out.print("Enter the created date: ");
         String createdDate = sc.nextLine();
         Priority priority = choosePriority();
         addNewTask(title, description, completionDate, createdDate, priority);
@@ -220,19 +252,18 @@ public class TaskManager {
         switch (str) {
             case "l" -> {
                 priority = Priority.LOW;
-                return priority;
             }
             case "m" -> {
                 priority = Priority.MEDIUM;
-                return priority;
             }
             case "h" -> {
                 priority = Priority.HIGH;
-                return priority;
+            }
+            default -> {
+                System.out.println("You entered wrong letter");
+                return choosePriority();
             }
         }
-        System.out.println("You entered wrong letter");
-        choosePriority();
         return priority;
     }
 

@@ -22,10 +22,10 @@ public enum Status {
             task.setDescription(msg);
         }
 
-        @Override
-        public void delete(Task task, TaskManager todo) {
-            todo.deleteTask(task.getTitle());
-        }
+//        @Override
+//        public void delete(Task task, TaskManager todo) {
+//            todo.deleteTask(task.getTitle());
+//        }
     },
     IN_PROGRESS {
         @Override
@@ -44,10 +44,10 @@ public enum Status {
             throw new CustomException("You cannot change description in task which is already in progress");
         }
 
-        @Override
-        public void delete(Task task, TaskManager todo) throws CustomException {
-            throw new CustomException("You cannot delete task which is already in progress");
-        }
+//        @Override
+//        public void delete(Task task, TaskManager todo) throws CustomException {
+//            throw new CustomException("You cannot delete task which is already in progress");
+//        }
     },
     DONE {
         @Override
@@ -65,10 +65,10 @@ public enum Status {
             throw new CustomException("You cannot change description in task which has been done");
         }
 
-        @Override
-        public void delete(Task task, TaskManager todo) throws CustomException {
-            throw new CustomException("You cannot delete task which has been done");
-        }
+//        @Override
+//        public void delete(Task task, TaskManager todo) throws CustomException {
+//            throw new CustomException("You cannot delete task which has been done");
+//        }
     };
 
     public abstract Status changeToIN_PROGRESS (Task task) throws CustomException;
@@ -76,6 +76,6 @@ public enum Status {
     public abstract Status changeToDONE(Task task) throws CustomException;
 
     public abstract void changeDescription(Task task, String msg) throws CustomException;
-    public abstract void delete(Task task, TaskManager todo) throws CustomException;
+//    public abstract void delete(Task task, TaskManager todo) throws CustomException;
 
 }
