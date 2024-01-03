@@ -90,10 +90,10 @@ public class TaskManager {
         tasks.forEach(Task::displayTask);
     }
 
-    private void addNewTask(String title, String description, String completionDate, String createdDate, Priority priority) throws ParseException {
+    private void addNewTask(String title, String description, String completionDate, Priority priority) throws ParseException {
         try {
             List<Task> updatedTasks = new ArrayList<>(tasks);
-            updatedTasks.add(new Task(title, description, completionDate, createdDate, priority));
+            updatedTasks.add(new Task(title, description, completionDate, priority));
             tasks = updatedTasks;
         } catch (ParseException e) {
             System.out.println(e.getMessage());
@@ -244,10 +244,8 @@ public class TaskManager {
         String description = sc.nextLine();
         System.out.print("Enter the completion date: ");
         String completionDate = sc.nextLine();
-        System.out.print("Enter the created date: ");
-        String createdDate = sc.nextLine();
         Priority priority = choosePriority();
-        addNewTask(title, description, completionDate, createdDate, priority);
+        addNewTask(title, description, completionDate, priority);
     }
 
     private Priority choosePriority() {

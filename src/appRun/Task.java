@@ -5,6 +5,9 @@ import state.Status;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class Task {
@@ -14,12 +17,15 @@ public class Task {
     private Date createdDate;
     private Priority priority;
     private Status status;
+    public Task(String title, String description, String completionDate, Priority priority) throws ParseException {
+        LocalDateTime ldt = LocalDateTime.now();
+        DateTimeFormatter customFormatter = DateTimeFormatter.ofPattern("M/d/yyyy");
+        String formattedString = ldt.format(customFormatter);
 
-    public Task(String title, String description, String completionDate, String createdDate, Priority priority) throws ParseException {
         this.title = title;
         this.description = description;
         this.completionDate = new SimpleDateFormat("M/d/yyyy").parse(completionDate);
-        this.createdDate = new SimpleDateFormat("M/d/yyyy").parse(createdDate);
+        this.createdDate = new SimpleDateFormat("M/d/yyyy").parse(formattedString);
         this.priority = priority;
         this.status = Status.NEW;
     }
