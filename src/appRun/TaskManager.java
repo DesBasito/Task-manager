@@ -220,8 +220,8 @@ public class TaskManager {
                 switch (answer) {
                     case "1" -> {
                         createNewTask();
-                        saveToJson(); //todo либо реализуем сохранения в самих методах, либо же переносим сохранение в интерфейс
-                        // Далее вызвать меню
+                        saveToJson();
+                        //todo либо реализуем сохранения в самих методах, либо же переносим сохранение в интерфейс
                         loadFromJson();
                         runApp();
                     }
@@ -348,7 +348,7 @@ public class TaskManager {
                 throw new NoSuchElementException(String.format(RED + "%s :" + RESET, "field cannot be empty"));
             }
             if (Integer.parseInt(str) < 1 || Integer.parseInt(str) > max) {
-                throw new IllegalArgumentException(String.format(RED + "%s :" + RESET, "r u serious?: "));
+                throw new IllegalArgumentException(String.format(RED + "%s :" + RESET, "choose only available numbers: "));
             }
             return Integer.parseInt(str);
         } catch (NoSuchElementException | NumberFormatException e) {
