@@ -1,7 +1,7 @@
 package Exceptions;
 
 public class CustomException extends Exception{
-    public CustomException() {
+    private CustomException() {
     }
 
     public CustomException(String message) {

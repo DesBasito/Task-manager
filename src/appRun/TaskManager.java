@@ -282,11 +282,16 @@ public class TaskManager {
                 """ + RESET);
     }
 
-    private void changeDescription(Task task) throws CustomException {
-        System.out.print("Введите новое описание задачи: ");
-        String str = new Scanner(System.in).nextLine();
-        task.getStatus().changeDescription(task, str);
+    private void changeDescription(Task task) {
+        try {
+            System.out.print("Enter the new description for the task: ");
+            String newDescription = sc.nextLine().strip();
+            task.getStatus().changeDescription(task, newDescription);
+        } catch (CustomException e) {
+            System.out.println(e.getMessage());
+        }
     }
+
 
     private void changeStatus(Task task) throws CustomException {
         if (task.getStatus() != Status.DONE) {
