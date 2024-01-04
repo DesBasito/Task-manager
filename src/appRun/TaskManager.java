@@ -263,7 +263,7 @@ public class TaskManager {
 
     private void sortTasksByDescription() {
         var result = tasks.stream()
-                .sorted(Comparator.comparing(c -> c.getDescription().getBytes().length))
+                .sorted(Comparator.comparing(Task::getDescription))
                 .toList();
         result.forEach(Task::displayTask);
     }
