@@ -8,6 +8,7 @@ import util.FileUtil;
 
 import java.text.ParseException;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -20,6 +21,7 @@ public class TaskManager {
     public static final String BLUE = "\u001B[34m";
     public static final String PURPLE = "\u001B[35m";
     public static final String CYAN = "\u001B[36m";
+    public static final String BLACK = "\u001B[30m";
     private static final Scanner sc = new Scanner(System.in);
     private List<Task> tasks;
 
@@ -32,7 +34,7 @@ public class TaskManager {
         boolean brake = false;
         while (!brake) {
             displayMenu();
-            int num = num("Action: ", 5);
+            int num = num("Action: ", 7);
             switch (num) {
                 case 1 -> {
                     showAllTasks();
@@ -61,10 +63,85 @@ public class TaskManager {
                     saveToJson();
                     brake = true;
                 }
+                case 7 -> {
+                    searchTasks();
+                }
             }
         }
+    }
 
+    private void searchTasks() {
+        System.out.println("""
+                1. Search tasks by keyword
+                2. Search tasks by date
+                3. Search tasks by priority
+                4. Go back.
+                """);
+        int searchOption = num("Choose search option: ", 4);
 
+        switch (searchOption) {
+            case 1 -> {
+                System.out.print("Enter keyword to search: ");
+                String key = sc.nextLine().strip();
+                searchByKey(key);
+            }
+            case 2 -> {
+                System.out.print("Enter date to search (M/d/yyyy): ");
+                String date = sc.nextLine().strip();
+                searchByDate(date);
+            }
+            case 3 -> {
+                System.out.println("Choose priority to search:");
+                Priority priority = choosePriority();
+                searchByPriority(priority);
+            }
+            case 4->{
+                System.out.println(BLACK+"Going back to black 🎸"+RESET);
+            }
+        }
+    }
+
+    private void searchByKey(String key) {
+        List<Task> matchingTasks = tasks.stream()
+                .filter(task -> task.getTitle().contains(key) || task.getDescription().contains(key))
+                .toList();
+        if (matchingTasks.isEmpty()) {
+            System.out.println(YELLOW+"No matching tasks found."+RESET);
+        } else {
+            System.out.println(CYAN+"Matching tasks:"+RESET);
+            matchingTasks.forEach(Task::displayTask);
+        }
+    }
+
+    private void searchByDate(String date) {
+        try {
+            Date searchDate = new SimpleDateFormat("M/d/yyyy").parse(date);
+            List<Task> matchingTasks = tasks.stream()
+                    .filter(task -> task.getCreatedDate().equals(searchDate) || task.getCompletionDate().equals(searchDate))
+                    .toList();
+
+            if (matchingTasks.isEmpty()) {
+                System.out.println(YELLOW+"No matching tasks found."+RESET);
+            } else {
+                System.out.println(CYAN+"Matching tasks:"+RESET);
+                matchingTasks.forEach(Task::displayTask);
+            }
+        } catch (ParseException e) {
+            System.out.println(RED+"Invalid date format. Please use the format M/d/yyyy."+RESET);
+        }
+    }
+
+    private void searchByPriority(Priority priority) {
+        List<Task> matchingTasks = tasks.stream()
+                .filter(task -> task.getPriority() == priority)
+                .toList();
+
+        if (matchingTasks.isEmpty()) {
+            System.out.println(YELLOW+"No matching tasks found."+RESET);
+        } else {
+            System.out.println(CYAN+"Matching tasks:"+RESET);
+            matchingTasks.forEach(Task::displayTask);
+        }
     }
 
     private void sortedList() {
@@ -214,6 +291,7 @@ public class TaskManager {
                  4. Delete a task
                  5. Display the tasks by sorting.
                  6. Save and exit
+                 7. Search tasks
                 ==============================
                 """ + RESET);
     }
