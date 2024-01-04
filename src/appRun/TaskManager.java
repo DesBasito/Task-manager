@@ -43,7 +43,7 @@ public class TaskManager {
                             "\n(s - status, d - description, pr - priority): ");
                     String change = sc.nextLine().strip().toLowerCase();
                     changeTask(nameOfTask, change);
-                    saveToJson();
+//                    saveToJson();
                 }
                 case 4 -> {
                     System.out.print("Enter the name of the title: ");
@@ -52,7 +52,7 @@ public class TaskManager {
                 }
                 case 5 -> sortedList();
                 case 6 -> {
-                    saveToJson();
+//                    saveToJson();
                     brake = true;
                 }
                 case 7 -> {
