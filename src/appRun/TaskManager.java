@@ -190,7 +190,7 @@ public class TaskManager {
         if (taskToRemove.isPresent()) {
             Task task = taskToRemove.get();
             if (task.getStatus() == Status.NEW) {
-                tasks = new ArrayList<>(tasks);  // Convert to a mutable list
+                tasks = new ArrayList<>(tasks);
                 tasks.remove(task);
                 System.out.println(CYAN + "Task successfully deleted!" + RESET);
             } else {
@@ -208,36 +208,38 @@ public class TaskManager {
     private List<Task> loadFromJson() throws ParseException, CustomException {
         try {
             List<Task> loadedTasks = FileUtil.readFile();
-            if (loadedTasks == null || loadedTasks.isEmpty()) {
+            if (loadedTasks.isEmpty()) {
                 System.out.println(YELLOW + """
-                    There are no tasks or the file is empty. Would you like to create new tasks?
+                    There are no tasks. Would you like to create new tasks?
                      1. Yes
                      2. No, exit
-                     -->
+                     --> 
                     """ + RESET);
                 String answer = sc.nextLine().trim();
                 switch (answer) {
                     case "1" -> {
                         createNewTask();
                         saveToJson();
-                        return loadFromJson(); // Recursive call after creating new tasks
+                        return loadedTasks;
                     }
                     case "2" -> {
                         System.out.println(BLUE + "Shutting down..." + RESET);
-                        return new ArrayList<>(); // Return an empty list
+                        return loadedTasks;
                     }
                     default -> {
-                        System.out.println(RED + "Answer isn't correct, exiting..." + RESET);
-                        return new ArrayList<>(); // Return an empty list
+                        System.out.println(RED + "Answer isn't correct, try again..." + RESET);
+                        return loadFromJson(); // Return statement added here
                     }
                 }
             }
             return loadedTasks;
         } catch (IOException e) {
-            System.out.println(YELLOW + "Error reading file: " + e.getMessage() + RESET);
-            return new ArrayList<>(); // Return an empty list
+            System.out.println(RED + "You don't have any tasks, create one, press 2: " + RESET);
+            return new ArrayList<>();
         }
     }
+
+
 
 
     private void markOverdueTasks() {
@@ -313,6 +315,9 @@ public class TaskManager {
     }
 
     private void createNewTask() throws ParseException {
+        if(tasks == null){
+            tasks = new ArrayList<>();
+        }
         System.out.print("Enter the name of the title: ");
         String title = sc.nextLine().strip();
         tasks.forEach(o -> {
