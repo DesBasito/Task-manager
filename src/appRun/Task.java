@@ -17,6 +17,7 @@ public class Task {
     private Date createdDate;
     private Priority priority;
     private Status status;
+    private int rating;
     public Task(String title, String description, String completionDate, Priority priority) throws ParseException {
         LocalDateTime ldt = LocalDateTime.now();
         DateTimeFormatter customFormatter = DateTimeFormatter.ofPattern("M/d/yyyy");
@@ -77,6 +78,15 @@ public class Task {
     public void setStatus(Status status) {
         this.status = status;
     }
+
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
+
 
     public void displayTask() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("E MMM dd yyyy");

@@ -43,7 +43,7 @@ public class TaskManager {
                             "\n(s - status, d - description, pr - priority): ");
                     String change = sc.nextLine().strip().toLowerCase();
                     changeTask(nameOfTask, change);
-                    saveToJson();
+//                    saveToJson();
                 }
                 case 4 -> {
                     System.out.print("Enter the name of the title: ");
@@ -51,13 +51,12 @@ public class TaskManager {
                     deleteTask(name);
                 }
                 case 5 -> sortedList();
-                case 6 -> {
-                    saveToJson();
+                case 6 -> searchTasks();
+                case 7 -> {
+//                    saveToJson();
                     brake = true;
                 }
-                case 7 -> {
-                    searchTasks();
-                }
+
             }
         }
     }
@@ -87,8 +86,8 @@ public class TaskManager {
                 Priority priority = choosePriority();
                 searchByPriority(priority);
             }
-            case 4->{
-                System.out.println(BLACK+"Going back to black 🎸"+RESET);
+            case 4 -> {
+                System.out.println(BLACK + "Going back to black 🎸" + RESET);
             }
         }
     }
@@ -98,9 +97,9 @@ public class TaskManager {
                 .filter(task -> task.getTitle().contains(key) || task.getDescription().contains(key))
                 .toList();
         if (matchingTasks.isEmpty()) {
-            System.out.println(YELLOW+"No matching tasks found."+RESET);
+            System.out.println(YELLOW + "No matching tasks found." + RESET);
         } else {
-            System.out.println(CYAN+"Matching tasks:"+RESET);
+            System.out.println(CYAN + "Matching tasks:" + RESET);
             matchingTasks.forEach(Task::displayTask);
         }
     }
@@ -113,13 +112,13 @@ public class TaskManager {
                     .toList();
 
             if (matchingTasks.isEmpty()) {
-                System.out.println(YELLOW+"No matching tasks found."+RESET);
+                System.out.println(YELLOW + "No matching tasks found." + RESET);
             } else {
-                System.out.println(CYAN+"Matching tasks:"+RESET);
+                System.out.println(CYAN + "Matching tasks:" + RESET);
                 matchingTasks.forEach(Task::displayTask);
             }
         } catch (ParseException e) {
-            System.out.println(RED+"Invalid date format. Please use the format M/d/yyyy."+RESET);
+            System.out.println(RED + "Invalid date format. Please use the format M/d/yyyy." + RESET);
         }
     }
 
@@ -129,9 +128,9 @@ public class TaskManager {
                 .toList();
 
         if (matchingTasks.isEmpty()) {
-            System.out.println(YELLOW+"No matching tasks found."+RESET);
+            System.out.println(YELLOW + "No matching tasks found." + RESET);
         } else {
-            System.out.println(CYAN+"Matching tasks:"+RESET);
+            System.out.println(CYAN + "Matching tasks:" + RESET);
             matchingTasks.forEach(Task::displayTask);
         }
     }
@@ -190,7 +189,7 @@ public class TaskManager {
         if (taskToRemove.isPresent()) {
             Task task = taskToRemove.get();
             if (task.getStatus() == Status.NEW) {
-                tasks = new ArrayList<>(tasks);
+                tasks = new ArrayList<>(tasks);  // Convert to a mutable list
                 tasks.remove(task);
                 System.out.println(CYAN + "Task successfully deleted!" + RESET);
             } else {
@@ -207,40 +206,33 @@ public class TaskManager {
 
     private List<Task> loadFromJson() throws ParseException, CustomException {
         try {
-            List<Task> loadedTasks = FileUtil.readFile();
-            if (loadedTasks.isEmpty()) {
-                System.out.println(YELLOW + """
+            return FileUtil.readFile();
+        } catch (IOException e) {
+            System.out.println(YELLOW + """
                     There are no tasks. Would you like to create new tasks?
                      1. Yes
                      2. No, exit
-                     --> 
+                     -->
                     """ + RESET);
-                String answer = sc.nextLine().trim();
+            String answer = sc.nextLine().trim();
+            while (true) {
                 switch (answer) {
                     case "1" -> {
                         createNewTask();
                         saveToJson();
-                        return loadedTasks;
+                        //todo либо реализуем сохранения в самих методах, либо же переносим сохранение в интерфейс
+                        loadFromJson();
+                        runApp();
                     }
                     case "2" -> {
                         System.out.println(BLUE + "Shutting down..." + RESET);
-                        return loadedTasks;
+                        return null;
                     }
-                    default -> {
-                        System.out.println(RED + "Answer isn't correct, try again..." + RESET);
-                        return loadFromJson(); // Return statement added here
-                    }
+                    default -> System.out.println(RED + "Answer isn't correct, try again..." + RESET);
                 }
             }
-            return loadedTasks;
-        } catch (IOException e) {
-            System.out.println(RED + "You don't have any tasks, create one, press 2: " + RESET);
-            return new ArrayList<>();
         }
     }
-
-
-
 
     private void markOverdueTasks() {
         tasks = new ArrayList<>(tasks);  // Преобразовываю в изменяемый список
@@ -283,22 +275,17 @@ public class TaskManager {
                  3. Change task Status(s), Description(d) or Priority(pr)
                  4. Delete a task
                  5. Display the tasks by sorting.
-                 6. Save and exit
-                 7. Search tasks
+                 6. Search tasks
+                 7. Save and exit
                 ==============================
                 """ + RESET);
     }
 
-    private void changeDescription(Task task) {
-        try {
-            System.out.print("Enter the new description for the task: ");
-            String newDescription = sc.nextLine().strip();
-            task.getStatus().changeDescription(task, newDescription);
-        } catch (CustomException e) {
-            System.out.println(e.getMessage());
-        }
+    private void changeDescription(Task task) throws CustomException {
+        System.out.print("Введите новое описание задачи: ");
+        String str = new Scanner(System.in).nextLine();
+        task.getStatus().changeDescription(task, str);
     }
-
 
     private void changeStatus(Task task) throws CustomException {
         if (task.getStatus() != Status.DONE) {
@@ -307,7 +294,10 @@ public class TaskManager {
             String line = new Scanner(System.in).nextLine().toLowerCase();
             switch (line) {
                 case "p" -> task.setStatus(task.getStatus().changeToIN_PROGRESS(task));
-                case "d" -> task.setStatus(task.getStatus().changeToDONE(task));
+                case "d" -> {
+                    task.setStatus(task.getStatus().changeToDONE(task));
+                    setRating(task);
+                }
             }
         } else {
             System.out.println(RED + "You can't change the task that is done." + RESET);
@@ -315,9 +305,6 @@ public class TaskManager {
     }
 
     private void createNewTask() throws ParseException {
-        if(tasks == null){
-            tasks = new ArrayList<>();
-        }
         System.out.print("Enter the name of the title: ");
         String title = sc.nextLine().strip();
         tasks.forEach(o -> {
@@ -355,6 +342,17 @@ public class TaskManager {
         return priority;
     }
 
+    private void setRating(Task task) throws CustomException {
+        System.out.println("On a scale of 1 to 5, how would you rate the completion of this task?");
+        int rating = num("Rating: ", 5);
+        switch (rating) {
+            case 1, 2, 3, 4, 5 -> task.getStatus().setRating(task, rating);
+            default -> System.out.println("Invalid rating. Please choose a rating between 1 and 5.");
+        }
+            saveToJson();
+    }
+
+
     private int num(String prompt, int max) {
         System.out.print(prompt);
         try {
@@ -372,5 +370,4 @@ public class TaskManager {
             return num(e.getMessage(), max);
         }
     }
-
 }
