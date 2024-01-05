@@ -17,6 +17,16 @@ public class Task {
     private Date createdDate;
     private Priority priority;
     private Status status;
+    private int rating;
+
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
+
     public Task(String title, String description, String completionDate, Priority priority) throws ParseException {
         LocalDateTime ldt = LocalDateTime.now();
         DateTimeFormatter customFormatter = DateTimeFormatter.ofPattern("M/d/yyyy");
@@ -85,6 +95,7 @@ public class Task {
         System.out.println("Created Date: " + createdDate);
         System.out.println("Priority: " + priority);
         System.out.println("Status: " + status);
+        System.out.println("Rating: " + (status == Status.DONE ? rating : "Not available"));
         System.out.println("-------------------");
     }
 }

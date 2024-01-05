@@ -14,7 +14,7 @@ public enum Status {
 
         @Override
         public Status changeToDONE(Task task) throws CustomException {
-            throw new CustomException("\u001B[31m"+"You cannot make new task as done"+"\u001B[0m");
+            throw new CustomException("\u001B[31m" + "You cannot make new task as done" + "\u001B[0m");
         }
 
         @Override
@@ -22,11 +22,16 @@ public enum Status {
             task.setDescription(msg);
         }
 
+        @Override
+        public void setRating(Task task, int rating) throws CustomException {
+            throw new CustomException("\u001B[31m" + "Rating can only be set when status is Done" + "\u001B[0m");
+        }
+
     },
     IN_PROGRESS {
         @Override
         public Status changeToIN_PROGRESS(Task task) throws CustomException {
-            throw new CustomException(TaskManager.RED+"The task is already in progress"+TaskManager.RESET);
+            throw new CustomException(TaskManager.RED + "The task is already in progress" + TaskManager.RESET);
         }
 
         @Override
@@ -37,30 +42,43 @@ public enum Status {
 
         @Override
         public void changeDescription(Task task, String msg) throws CustomException {
-            throw new CustomException(TaskManager.RED+"You cannot change description in task which is already in progress"+TaskManager.RESET);
+            throw new CustomException(TaskManager.RED + "You cannot change description in task which is already in progress" + TaskManager.RESET);
+        }
+
+        @Override
+        public void setRating(Task task, int rating) throws CustomException {
+            throw new CustomException("\u001B[31m" + "Rating can only be set when status is Done" + "\u001B[0m");
         }
     },
     DONE {
         @Override
         public Status changeToIN_PROGRESS(Task task) throws CustomException {
-            throw new CustomException(TaskManager.RED+"Task has already been done"+TaskManager.RESET);
+            throw new CustomException(TaskManager.RED + "Task has already been done" + TaskManager.RESET);
         }
 
         @Override
         public Status changeToDONE(Task task) throws CustomException {
-            throw new CustomException(TaskManager.RED+"Task has already been done"+TaskManager.RESET);
+            throw new CustomException(TaskManager.RED + "Task has already been done" + TaskManager.RESET);
         }
 
         @Override
         public void changeDescription(Task task, String msg) throws CustomException {
-            throw new CustomException(TaskManager.RED+"You cannot change description in task which has been done"+TaskManager.RESET);
+            throw new CustomException(TaskManager.RED + "You cannot change description in task which has been done" + TaskManager.RESET);
+        }
+
+        public void setRating(Task task, int rating) throws CustomException {
+            if (task.getRating() > 0) {
+                throw new CustomException("Rating can only be set once for a completed task");
+            }
+            task.setRating(rating);
         }
     };
 
-    public abstract Status changeToIN_PROGRESS (Task task) throws CustomException;
+    public abstract Status changeToIN_PROGRESS(Task task) throws CustomException;
 
     public abstract Status changeToDONE(Task task) throws CustomException;
 
     public abstract void changeDescription(Task task, String msg) throws CustomException;
 
+    public abstract void setRating(Task task, int rating) throws CustomException;
 }

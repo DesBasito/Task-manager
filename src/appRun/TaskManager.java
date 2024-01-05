@@ -51,13 +51,12 @@ public class TaskManager {
                     deleteTask(name);
                 }
                 case 5 -> sortedList();
-                case 6 -> {
+                case 6 -> searchTasks();
+                case 7 -> {
 //                    saveToJson();
                     brake = true;
                 }
-                case 7 -> {
-                    searchTasks();
-                }
+
             }
         }
     }
@@ -87,8 +86,8 @@ public class TaskManager {
                 Priority priority = choosePriority();
                 searchByPriority(priority);
             }
-            case 4->{
-                System.out.println(BLACK+"Going back to black 🎸"+RESET);
+            case 4 -> {
+                System.out.println(BLACK + "Going back to black 🎸" + RESET);
             }
         }
     }
@@ -98,9 +97,9 @@ public class TaskManager {
                 .filter(task -> task.getTitle().contains(key) || task.getDescription().contains(key))
                 .toList();
         if (matchingTasks.isEmpty()) {
-            System.out.println(YELLOW+"No matching tasks found."+RESET);
+            System.out.println(YELLOW + "No matching tasks found." + RESET);
         } else {
-            System.out.println(CYAN+"Matching tasks:"+RESET);
+            System.out.println(CYAN + "Matching tasks:" + RESET);
             matchingTasks.forEach(Task::displayTask);
         }
     }
@@ -113,13 +112,13 @@ public class TaskManager {
                     .toList();
 
             if (matchingTasks.isEmpty()) {
-                System.out.println(YELLOW+"No matching tasks found."+RESET);
+                System.out.println(YELLOW + "No matching tasks found." + RESET);
             } else {
-                System.out.println(CYAN+"Matching tasks:"+RESET);
+                System.out.println(CYAN + "Matching tasks:" + RESET);
                 matchingTasks.forEach(Task::displayTask);
             }
         } catch (ParseException e) {
-            System.out.println(RED+"Invalid date format. Please use the format M/d/yyyy."+RESET);
+            System.out.println(RED + "Invalid date format. Please use the format M/d/yyyy." + RESET);
         }
     }
 
@@ -129,9 +128,9 @@ public class TaskManager {
                 .toList();
 
         if (matchingTasks.isEmpty()) {
-            System.out.println(YELLOW+"No matching tasks found."+RESET);
+            System.out.println(YELLOW + "No matching tasks found." + RESET);
         } else {
-            System.out.println(CYAN+"Matching tasks:"+RESET);
+            System.out.println(CYAN + "Matching tasks:" + RESET);
             matchingTasks.forEach(Task::displayTask);
         }
     }
@@ -276,8 +275,8 @@ public class TaskManager {
                  3. Change task Status(s), Description(d) or Priority(pr)
                  4. Delete a task
                  5. Display the tasks by sorting.
-                 6. Save and exit
-                 7. Search tasks
+                 6. Search tasks
+                 7. Save and exit
                 ==============================
                 """ + RESET);
     }
@@ -295,7 +294,10 @@ public class TaskManager {
             String line = new Scanner(System.in).nextLine().toLowerCase();
             switch (line) {
                 case "p" -> task.setStatus(task.getStatus().changeToIN_PROGRESS(task));
-                case "d" -> task.setStatus(task.getStatus().changeToDONE(task));
+                case "d" -> {
+                    task.setStatus(task.getStatus().changeToDONE(task));
+                    setRating(task);
+                }
             }
         } else {
             System.out.println(RED + "You can't change the task that is done." + RESET);
@@ -339,6 +341,17 @@ public class TaskManager {
         }
         return priority;
     }
+
+    private void setRating(Task task) throws CustomException {
+            System.out.println("On a scale of 1 to 5, how would you rate the completion of this task?");
+            int rating = num("Rating: ", 5);
+            switch (rating) {
+                case 1, 2, 3, 4, 5 -> task.getStatus().setRating(task, rating);
+                default -> System.out.println("Invalid rating. Please choose a rating between 1 and 5.");
+            }
+//            saveToJson();
+    }
+
 
     private int num(String prompt, int max) {
         System.out.print(prompt);
