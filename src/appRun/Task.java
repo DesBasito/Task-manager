@@ -79,10 +79,16 @@ public class Task {
     }
 
     public void displayTask() {
-        System.out.println("Title: " + title);
-        System.out.println("Description: " + description);
-        System.out.println("Completion Date: " + completionDate);
-        System.out.println("Created Date: " + createdDate);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("E MMM dd yyyy");
+
+        System.out.println("Title: " + this.title);
+        System.out.println("Description: " + this.description);
+
+        String formattedCompletionDate = dateFormat.format(this.completionDate);
+        System.out.println("Completion Date: " + formattedCompletionDate);
+
+        String formattedCreatedDate = dateFormat.format(this.createdDate);
+        System.out.println("Created Date: " + formattedCreatedDate);
         System.out.println("Priority: " + priority);
         System.out.println("Status: " + status);
         System.out.println("-------------------");
