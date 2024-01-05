@@ -21,7 +21,7 @@ public class FileUtil {
             .setDateFormat("M/d/yyyy")
             .create();
 
-    private static final Path PATH = Paths.get("data/tasks list.json");
+    private static final Path PATH = Paths.get("data/tasksList.json");
 
     public static List<Task> readFile() throws IOException {
         String str = Files.readString(PATH);
