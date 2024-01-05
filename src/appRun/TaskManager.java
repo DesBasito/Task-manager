@@ -43,7 +43,7 @@ public class TaskManager {
                             "\n(s - status, d - description, pr - priority): ");
                     String change = sc.nextLine().strip().toLowerCase();
                     changeTask(nameOfTask, change);
-//                    saveToJson();
+                    saveToJson();
                 }
                 case 4 -> {
                     System.out.print("Enter the name of the title: ");
@@ -52,7 +52,7 @@ public class TaskManager {
                 }
                 case 5 -> sortedList();
                 case 6 -> {
-//                    saveToJson();
+                    saveToJson();
                     brake = true;
                 }
                 case 7 -> {
@@ -207,33 +207,38 @@ public class TaskManager {
 
     private List<Task> loadFromJson() throws ParseException, CustomException {
         try {
-            return FileUtil.readFile();
-        } catch (IOException e) {
-            System.out.println(YELLOW + """
-                    There are no tasks. Would you like to create new tasks?
+            List<Task> loadedTasks = FileUtil.readFile();
+            if (loadedTasks == null || loadedTasks.isEmpty()) {
+                System.out.println(YELLOW + """
+                    There are no tasks or the file is empty. Would you like to create new tasks?
                      1. Yes
                      2. No, exit
                      -->
                     """ + RESET);
-            String answer = sc.nextLine().trim();
-            while (true) {
+                String answer = sc.nextLine().trim();
                 switch (answer) {
                     case "1" -> {
                         createNewTask();
                         saveToJson();
-                        //todo либо реализуем сохранения в самих методах, либо же переносим сохранение в интерфейс
-                        loadFromJson();
-                        runApp();
+                        return loadFromJson(); // Recursive call after creating new tasks
                     }
                     case "2" -> {
                         System.out.println(BLUE + "Shutting down..." + RESET);
-                        return null;
+                        return new ArrayList<>(); // Return an empty list
                     }
-                    default -> System.out.println(RED + "Answer isn't correct, try again..." + RESET);
+                    default -> {
+                        System.out.println(RED + "Answer isn't correct, exiting..." + RESET);
+                        return new ArrayList<>(); // Return an empty list
+                    }
                 }
             }
+            return loadedTasks;
+        } catch (IOException e) {
+            System.out.println(YELLOW + "Error reading file: " + e.getMessage() + RESET);
+            return new ArrayList<>(); // Return an empty list
         }
     }
+
 
     private void markOverdueTasks() {
         tasks = new ArrayList<>(tasks);  // Преобразовываю в изменяемый список

@@ -31,14 +31,11 @@ public class FileUtil {
 
     public static void writeFile(List<Task> tasks) {
         String json = GSON.toJson(tasks);
-
-        byte[] bytes = json.getBytes();
         try {
-            Files.write(PATH, bytes);
+            Files.writeString(PATH, json);
         } catch (IOException e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
         }
-
     }
 }
