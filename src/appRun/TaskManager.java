@@ -43,7 +43,7 @@ public class TaskManager {
                             "\n(s - status, d - description, pr - priority): ");
                     String change = sc.nextLine().strip().toLowerCase();
                     changeTask(nameOfTask, change);
-                    saveToJson();
+//                    saveToJson();
                 }
                 case 4 -> {
                     System.out.print("Enter the name of the title: ");
@@ -213,7 +213,7 @@ public class TaskManager {
                     There are no tasks. Would you like to create new tasks?
                      1. Yes
                      2. No, exit
-                     --> 
+                     -->
                     """ + RESET);
                 String answer = sc.nextLine().trim();
                 switch (answer) {
