@@ -18,15 +18,9 @@ public class Task {
     private Priority priority;
     private Status status;
     private int rating;
-    public Task(String title, String description, String completionDate, Priority priority) throws ParseException {
-        LocalDateTime ldt = LocalDateTime.now();
-        DateTimeFormatter customFormatter = DateTimeFormatter.ofPattern("M/d/yyyy");
-        String formattedString = ldt.format(customFormatter);
-
+    public Task(String title, String description,  Priority priority) throws ParseException {
         this.title = title;
         this.description = description;
-        this.completionDate = new SimpleDateFormat("M/d/yyyy").parse(completionDate);
-        this.createdDate = new SimpleDateFormat("M/d/yyyy").parse(formattedString);
         this.priority = priority;
         this.status = Status.NEW;
     }
@@ -89,16 +83,12 @@ public class Task {
 
 
     public void displayTask() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("E MMM dd yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
 
         System.out.println("Title: " + this.title);
         System.out.println("Description: " + this.description);
-
-        String formattedCompletionDate = dateFormat.format(this.completionDate);
-        System.out.println("Completion Date: " + formattedCompletionDate);
-
-        String formattedCreatedDate = dateFormat.format(this.createdDate);
-        System.out.println("Created Date: " + formattedCreatedDate);
+        System.out.println("Completion Date: " + dateFormat.format(this.completionDate));
+        System.out.println("Created Date: " + dateFormat.format(this.createdDate));
         System.out.println("Priority: " + priority);
         System.out.println("Status: " + status);
         System.out.println("-------------------");

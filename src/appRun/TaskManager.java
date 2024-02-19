@@ -156,7 +156,7 @@ public class TaskManager {
     private void addNewTask(String title, String description, String completionDate, Priority priority) throws ParseException {
         try {
             List<Task> updatedTasks = new ArrayList<>(tasks);
-            updatedTasks.add(new Task(title, description, completionDate, priority));
+            updatedTasks.add(new Task(title, description, priority));
             tasks = updatedTasks;
         } catch (ParseException e) {
             System.out.println(e.getMessage());
